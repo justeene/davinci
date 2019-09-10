@@ -616,4 +616,16 @@ CREATE TABLE `share_download_record` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE `rel_hmac` (
+	`oid` VARCHAR(50) NOT NULL COMMENT '主键',
+	`hmac` VARCHAR(1000) NOT NULL COMMENT '分享token',
+	`username` VARCHAR(255) NOT NULL COMMENT '分享人用户名',
+	`dashboard_id` BIGINT(20) NULL DEFAULT NULL COMMENT '分享仪表盘ID',
+	`create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+	PRIMARY KEY (`oid`)
+)
+COMMENT='分享表'
+ENGINE=InnoDB
+;
+
 SET FOREIGN_KEY_CHECKS = 1;

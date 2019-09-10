@@ -33,3 +33,6 @@ userfiles/
 *yarn.lock
 bin/upgrade.go
 bin/upgrade
+davinci-ui.tar
+server/config/application-dev.yml
+server/config/application-xzg.yml
