@@ -196,7 +196,7 @@ public class ShareController extends BaseController {
                                        @RequestBody(required = false) ViewExecuteParam executeParam,
                                        @ApiIgnore @CurrentUser User user,
                                        HttpServletRequest request) throws SQLException {
-        //TODO 如果token是32位的话，需要转换token转换token
+
         if (StringUtils.isEmpty(token)) {
             ResultMap resultMap = new ResultMap().fail().message("Invalid share token");
             return ResponseEntity.status(resultMap.getCode()).body(resultMap);

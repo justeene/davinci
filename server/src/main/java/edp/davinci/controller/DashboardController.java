@@ -482,6 +482,7 @@ public class DashboardController extends BaseController {
             ResultMap resultMap = new ResultMap(tokenUtils).failAndRefreshToken(request).message("Invalid  id");
             return ResponseEntity.status(resultMap.getCode()).body(resultMap);
         }
+
         String shareToken = dashboardService.shareDashboard(dashboardId, username, user);
         return ResponseEntity.ok(new ResultMap(tokenUtils).successAndRefreshToken(request).payload(shareToken));
     }
