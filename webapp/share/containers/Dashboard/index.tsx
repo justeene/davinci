@@ -1096,7 +1096,7 @@ export class Share extends React.Component<IDashboardProps, IDashboardStates> {
         <Helmet title={title} />
         <Container.Title>
           <Row>
-            <Col span={24}>
+            {/* <Col span={24}>
               <h2 className={styles.shareTitle}>{title}</h2>
               <div className={styles.shareDownloadListToggle}>
                 <DownloadList
@@ -1105,7 +1105,7 @@ export class Share extends React.Component<IDashboardProps, IDashboardStates> {
                   onDownloadFile={this.downloadFile}
                 />
               </div>
-            </Col>
+            </Col> */}
           </Row>
           <GlobalControlPanel
             currentDashboard={dashboard}
