@@ -29,7 +29,11 @@ module.exports = require('./webpack.base.babel')({
   },
 
   tsLoaders: [{
-    loader: 'babel-loader'
+    loader: 'babel-loader',
+    options: {
+      cacheDirectory: true
+    }
+
   }],
 
   optimization: {
@@ -141,8 +145,8 @@ module.exports = require('./webpack.base.babel')({
       analyzerPort: 5000,
       reportFilename: 'report.html',
       defaultSizes: 'parsed',
-      openAnalyzer: true,
-      generateStatsFile: true,
+      openAnalyzer: false,
+      generateStatsFile: false,
       statsFilename: '../stats.json',
       statsOptions: null,
       logLevel: 'info'

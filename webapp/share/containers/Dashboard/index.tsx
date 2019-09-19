@@ -1095,17 +1095,17 @@ export class Share extends React.Component<IDashboardProps, IDashboardStates> {
       <Container>
         <Helmet title={title} />
         <Container.Title>
-          <Row>
-            {/* <Col span={24}>
-              <h2 className={styles.shareTitle}>{title}</h2>
-              <div className={styles.shareDownloadListToggle}>
+          <Row style={{marginTop:'-10px'}}>
+            <Col span={24}>
+              {/* <h2 className={styles.shareTitle}>{title}</h2> */}
+              <div className={styles.shareDownloadListToggle} style={{marginTop:'-10px'}}>
                 <DownloadList
                   downloadList={downloadList}
                   onLoadDownloadList={this.loadDownloadList}
                   onDownloadFile={this.downloadFile}
                 />
               </div>
-            </Col> */}
+            </Col>
           </Row>
           <GlobalControlPanel
             currentDashboard={dashboard}
