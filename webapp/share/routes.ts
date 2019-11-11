@@ -28,7 +28,7 @@ const errorLoading = (err) => {
 }
 
 const loadModule = (cb) => (componentModule) => {
-  cb(null, componentModule.default)
+  cb(null, componentModule.default)                           
 }
 
 export default function createRoutes (store) {

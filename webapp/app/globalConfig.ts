@@ -23,11 +23,11 @@ export const envName = {
   dev: 'dev'
 }
 
-export const env = envName.production
+export const env = envName.dev
 
 export default {
   dev: {
-    host: '/api/v3',
+    host: 'http://localhost:8080/api/v3',
     shareHost: '/share.html'
   },
   production: {
