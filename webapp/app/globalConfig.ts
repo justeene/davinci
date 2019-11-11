@@ -23,7 +23,7 @@ export const envName = {
   dev: 'dev'
 }
 
-export const env = envName.dev
+export const env = envName.production
 
 export default {
   dev: {

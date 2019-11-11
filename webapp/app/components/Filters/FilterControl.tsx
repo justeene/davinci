@@ -29,10 +29,20 @@ interface IFilterControlProps {
   parentsInfo?: IParentInfo[]
   onChange: (control: IControlBase, value, isInputChange?: boolean) => void
 }
-
+function getQueryVariable(variable) {
+  var url = decodeURI(location.href);
+  var query = url.substring(url.indexOf("?") + 1);
+  var vars = query.split("&");
+  for (var i = 0; i < vars.length; i++) {
+    var pair = vars[i].split("=");
+    if (pair[0] == variable) { return pair[1]; }
+  }
+  return false;
+}
 export class FilterControl extends PureComponent<IFilterControlProps, {}> {
 
   private renderControl = (filter) => {
+
     const { currentOptions } = this.props
     const options = currentOptions || []
     let component
@@ -44,7 +54,21 @@ export class FilterControl extends PureComponent<IFilterControlProps, {}> {
         component = renderNumberRange(this.numberRangeChange, this.change)
         break
       case FilterTypes.Select:
-        component = renderSelect(filter, this.change, options)
+        var customSelectVals = getQueryVariable("customSelectVals");
+        if (customSelectVals != false) {
+          var customOptions = new Array();
+          var selectVals = customSelectVals.split(",");
+          selectVals.forEach((val, idx, array) => {
+            var option = {
+              text: val,
+              value: val
+            }
+            customOptions.push(option);
+          })
+          component = renderSelect(filter, this.change, customOptions)
+        } else {
+          component = renderSelect(filter, this.change, options)
+        }
         break
       // case FilterTypes.TreeSelect:
       //   component = renderTreeSelect(filter, this.change, options)
@@ -85,7 +109,7 @@ export class FilterControl extends PureComponent<IFilterControlProps, {}> {
     onChange(control, val, true)
   }
 
-  public render () {
+  public render() {
     const { control } = this.props
     return (
       <Suspense fallback={null}>
@@ -93,6 +117,7 @@ export class FilterControl extends PureComponent<IFilterControlProps, {}> {
       </Suspense>
     )
   }
+
 }
 
 export default FilterControl

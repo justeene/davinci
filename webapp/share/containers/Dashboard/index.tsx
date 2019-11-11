@@ -1090,7 +1090,6 @@ export class Share extends React.Component<IDashboardProps, IDashboardStates> {
         </>
       )
     }
-
     return (
       <Container>
         <Helmet title={title} />
@@ -1107,6 +1106,7 @@ export class Share extends React.Component<IDashboardProps, IDashboardStates> {
               </div>
             </Col>
           </Row>
+          
           <GlobalControlPanel
             currentDashboard={dashboard}
             currentItems={currentItems}
