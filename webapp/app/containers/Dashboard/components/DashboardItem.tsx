@@ -963,13 +963,13 @@ export class DashboardItem extends React.PureComponent<IDashboardItemProps, IDas
       />
     )
 
-
+    //console.log(widget.name)
     return (
       <div className={gridItemClass} ref={(f) => this.container = f}>
         <div className={styles.header}>
           <div className={styles.title}>
             {controlToggle}
-            <h4>{widget.name}</h4>
+            <h4 dangerouslySetInnerHTML={{__html: widget.name}}></h4>
             {loadingIcon}
             {descToggle}
             {errorToggle}
