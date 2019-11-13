@@ -23,7 +23,13 @@ export const envName = {
   dev: 'dev'
 }
 
-export const env = envName.production
+if (JSON.stringify(process.env).indexOf('development')>-1) {
+  console.log('development');
+}
+else {
+  console.log('production');
+}
+export const env = JSON.stringify(process.env).indexOf('development')>-1?envName.dev:envName.production;
 
 export default {
   dev: {
@@ -31,7 +37,7 @@ export default {
     shareHost: '/share.html'
   },
   production: {
-  //  host: '/api/v1',
+    //  host: '/api/v1',
     host: '/api/v3',
     shareHost: '/share.html'
   }
