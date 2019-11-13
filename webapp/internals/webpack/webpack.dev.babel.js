@@ -48,11 +48,11 @@ module.exports = require('./webpack.base.babel')({
 
     // Add development plugins
     plugins: [
-        new webpack.DefinePlugin({
-            'process.env': {
-                NODE_ENV: JSON.stringify('development')
-            }
-        }),
+        // new webpack.DefinePlugin({
+        //     'process.env': {
+        //         NODE_ENV: JSON.stringify('development')
+        //     }
+        // }),
         //new webpack.DefinePlugin({ 'process.env.NODE_ENV': 'development' }),
         new webpack.HotModuleReplacementPlugin(), // Tell webpack we want hot reloading
         new HtmlWebpackPlugin({

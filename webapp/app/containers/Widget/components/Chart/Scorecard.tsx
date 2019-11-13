@@ -66,7 +66,7 @@ export class Scorecard extends React.PureComponent<IChartProps, {}> {
       >
         <span style={stylePrefix}>{prefix}</span>
         <span style={style}>{text}</span>
-        <span style={styleSuffix}>{suffix}</span>
+        <span style={styleSuffix} dangerouslySetInnerHTML={{__html:suffix}} ></span>
       </p>
     )
   }

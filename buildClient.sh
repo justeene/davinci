@@ -1,3 +1,5 @@
 #!/bin/bash -e
-rm -f davinci-ui/*
-cp webapp/build/* davinci-ui/ 
+cd webapp
+#npm run build
+rm -f ../davinci-ui/*
+cp build/* ../davinci-ui/ 
