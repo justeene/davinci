@@ -135,9 +135,13 @@ export default function (chartProps: IChartProps, drillOptions) {
   const seriesData = []
   metrics.forEach((m, i) => {
     const decodedMetricName = decodeMetricName(m.name)
-    const localeMetricName = `[${getAggregatorLocale(
+    var localeMetricName = `[${getAggregatorLocale(
       m.agg
     )}] ${decodedMetricName}`
+    
+    if(metrics.length==1){
+      localeMetricName='';
+    }
     const stackOption = turnOnStack
       ? { stack: getStackName(m.name, stackConfig) }
       : null
