@@ -74,10 +74,22 @@ export class Chart extends React.PureComponent<IChartProps> {
 
   public collectSelectedItems = (params) => {
     const { data, onSelectChartsItems, selectedChart, onDoInteract, onCheckTableInteract } = this.props
+    // console.log("====================")
+    // console.log(data)
+    // console.log('type is'+selectedChart)
+    // console.log(this.props.selectedItems)
+    // console.log(this.props.selectedItems.length)
+    // console.log(params.dataIndex)
+    // console.log(params.seriesIndex)
+    // console.log(params)
+    // console.log("========================================")
+
     let selectedItems = []
     if (this.props.selectedItems && this.props.selectedItems.length) {
       selectedItems = [...this.props.selectedItems]
     }
+    
+    
     const { getDataDrillDetail } = this.props
     let dataIndex = params.dataIndex
     if (selectedChart === 4) {
@@ -98,15 +110,29 @@ export class Chart extends React.PureComponent<IChartProps> {
         selectedItems.push(dataIndex)
       }
     }
-
-    const resultData = selectedItems.map((item) => {
+    var resultData = selectedItems.map((item) => {
       return data[item]
     })
+    //修复柱状图堆叠selectedItems计算错误问题
+    if(selectedChart==3){
+      var selectName=params.name
+      console.log(selectName)
+      for(var i=0;i<data.length;i++){
+        //console.log(JSON.stringify(data[i]))
+        if(JSON.stringify(data[i]).indexOf(selectName)>-1){
+          resultData[0]=data[i];
+          break;
+        }
+      }
+    }
+    console.log(resultData)
     const brushed = [{0: Object.values(resultData)}]
     const sourceData = Object.values(resultData)
     const isInteractiveChart = onCheckTableInteract && onCheckTableInteract()
     if (isInteractiveChart && onDoInteract) {
       const triggerData = sourceData
+      
+      //联动功能
       onDoInteract(triggerData)
     }
     setTimeout(() => {
@@ -115,11 +141,13 @@ export class Chart extends React.PureComponent<IChartProps> {
       }
     }, 500)
     if (onSelectChartsItems) {
+      //选中样式
       onSelectChartsItems(selectedItems)
     }
   }
 
   public render () {
+    //console.log(styles.chartContainer)
     return (
       <div
         className={styles.chartContainer}
