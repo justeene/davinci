@@ -33,9 +33,9 @@ interface IFullScreenPanelStates {
   controlPanelVisible: boolean
 }
 
-class FullScreenPanel extends React.PureComponent<IFullScreenPanelProps, IFullScreenPanelStates > {
+class FullScreenPanel extends React.PureComponent<IFullScreenPanelProps, IFullScreenPanelStates> {
   private chartInstance: any
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.chartInstance = false
     this.state = {
@@ -47,10 +47,12 @@ class FullScreenPanel extends React.PureComponent<IFullScreenPanelProps, IFullSc
     this.setState({
       controlPanelVisible: false
     })
-    const {isVisible} = this.props
+    const { isVisible, currentDataInFullScreen } = this.props
     if (isVisible) {
       isVisible()
     }
+    //hide时应该清除当前全屏对象
+    //this.props.currentDataInFullScreen={}
   }
   private toggleControlPanel = () => {
     this.setState({
@@ -67,7 +69,7 @@ class FullScreenPanel extends React.PureComponent<IFullScreenPanelProps, IFullSc
     })
   }
   private onControlSearch = (queryConditions) => {
-    const {currentDataInFullScreen} = this.props
+    const { currentDataInFullScreen } = this.props
     const {
       itemId,
       widget,
@@ -86,9 +88,9 @@ class FullScreenPanel extends React.PureComponent<IFullScreenPanelProps, IFullSc
     return queryVariables
   })
 
-  public render () {
-    const {isShowMenu, controlPanelVisible} = this.state
-    const {visible, currentDataInFullScreen, currentItemsInfo, currentDashboard, widgets, currentItems} = this.props
+  public render() {
+    const { isShowMenu, controlPanelVisible } = this.state
+    const { visible, currentDataInFullScreen, currentItemsInfo, currentDashboard, widgets, currentItems } = this.props
     const fsClassName = classnames({
       [styles.fullScreen]: true,
       [styles.displayNone]: !visible,
@@ -119,9 +121,9 @@ class FullScreenPanel extends React.PureComponent<IFullScreenPanelProps, IFullSc
               currentItems && currentItems.map(
                 (item, i) => {
                   const w = widgets.find((w) => w.id === item.widgetId)
-               // const iconName = widgetlibs.find((wl) => wl.id === w['widgetlib_id'])['name']
+                  // const iconName = widgetlibs.find((wl) => wl.id === w['widgetlib_id'])['name']
                   return <Menu.Item key={item.id}>
-                    <i style={{marginRight: '8px'}}/>
+                    <i style={{ marginRight: '8px' }} />
                     {w.name}
                   </Menu.Item>
                 }
@@ -135,18 +137,21 @@ class FullScreenPanel extends React.PureComponent<IFullScreenPanelProps, IFullSc
       const c = currentDataInFullScreen
       title = c.widget.name
       itemInfo = currentItemsInfo[c.itemId]
-      const widgetProps = JSON.parse(currentDataInFullScreen.widget.config)
-      const queryVariables = this.getQueryVariables(itemInfo.queryConditions)
-      charts = (
-        <Widget
-          {...widgetProps}
-          data={itemInfo && itemInfo.datasource ? itemInfo.datasource.resultList : []}
-          model={currentDataInFullScreen.model}
-          queryVariables={queryVariables}
-          renderType={itemInfo && itemInfo.loading ? 'loading' : 'rerender'}
-          loading={itemInfo && itemInfo.loading ? itemInfo.loading : false}
-        />
-      )
+      //mark 退出全屏后currentDataInFullScreen属性未清空
+      if (itemInfo != undefined) {
+        const widgetProps = JSON.parse(currentDataInFullScreen.widget.config)
+        const queryVariables = this.getQueryVariables(itemInfo.queryConditions)
+        charts = (
+          <Widget
+            {...widgetProps}
+            data={itemInfo && itemInfo.datasource ? itemInfo.datasource.resultList : []}
+            model={currentDataInFullScreen.model}
+            queryVariables={queryVariables}
+            renderType={itemInfo && itemInfo.loading ? 'loading' : 'rerender'}
+            loading={itemInfo && itemInfo.loading ? itemInfo.loading : false}
+          />
+        )
+      }
     }
     let controlTypes = []
     let isHasControl = false
@@ -172,7 +177,7 @@ class FullScreenPanel extends React.PureComponent<IFullScreenPanelProps, IFullSc
         <div className={styles.container}>
           <nav className={styles.header}>
             <div className={styles.logo}>
-              <Icon type={this.state.isShowMenu ? 'menu-fold' : 'menu-unfold'} onClick={this.isShowSideMenu} style={{marginRight: '32px'}} />
+              <Icon type={this.state.isShowMenu ? 'menu-fold' : 'menu-unfold'} onClick={this.isShowSideMenu} style={{ marginRight: '32px' }} />
               <span>{title}</span>
             </div>
             <ul className={styles.tools}>
@@ -180,7 +185,7 @@ class FullScreenPanel extends React.PureComponent<IFullScreenPanelProps, IFullSc
                 isHasControl ? <li onClick={this.toggleControlPanel}>
                   <Icon type={`${!controlPanelVisible ? 'down-square-o' : 'up-square-o'}`} /><span>控制器</span>
                 </li> : ''}
-              <li/>
+              <li />
               <li onClick={this.hide}>
                 <Icon type="shrink" /><span>退出全屏</span>
               </li>
@@ -193,11 +198,12 @@ class FullScreenPanel extends React.PureComponent<IFullScreenPanelProps, IFullSc
             <div className={modalPanel} />
             <div className={controlPanel}>
               <div className={styles.formPanel}>
-                <DashboardItemControlForm
+                {/* 注释报错代码 */}
+                {/* <DashboardItemControlForm
                   controls={controlTypes}
                   onSearch={this.onControlSearch}
                   onHide={this.toggleControlPanel}
-                />
+                /> */}
               </div>
             </div>
             <div className={mainChartClass}>

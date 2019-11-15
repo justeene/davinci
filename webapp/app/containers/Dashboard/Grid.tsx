@@ -1005,6 +1005,7 @@ export class Grid extends React.Component<IGridProps, IGridStates> {
         //直接全屏，不筛选数据
         //this.dashboardItems.get(+linkagerItemId).onFullScreen();
         this[`dashboardItem${linkagerItemId}`].onFullScreen()
+        this[`dashboardItem${linkagerItemId}`].onSyncBizdatas()
       } else {
         this.getChartData('clear', +linkagerItemId, item.widgetId, {
           linkageFilters: Object.values(filters).reduce<string[]>((arr, f: string[]) => arr.concat(...f), []),
@@ -1733,7 +1734,7 @@ export class Grid extends React.Component<IGridProps, IGridStates> {
           </Button>
         )]
       : saveDashboardItemButton
-
+    //console.log(this.state.currentDataInFullScreen)
     return (
       <Container>
         <Helmet title={currentDashboard && currentDashboard.name} />

@@ -41,7 +41,8 @@ import Styles from './Table.less'
 
 import {
   findChildConfig, traverseConfig,
-  computeCellWidth, getDataColumnWidth, getMergedCellSpan, getTableCellValueRange } from './util'
+  computeCellWidth, getDataColumnWidth, getMergedCellSpan, getTableCellValueRange
+} from './util'
 import { MapAntSortOrder } from './constants'
 import { FieldSortTypes } from '../../Config/Sort'
 import { tableComponents } from './components'
@@ -132,17 +133,17 @@ export class Table extends React.PureComponent<IChartProps, ITableStates> {
     onShowSizeChange: this.paginationChange
   }
 
-  public componentDidMount () {
+  public componentDidMount() {
     const { headerFixed, withPaging } = this.props.chartStyles.table
     this.adjustTableCell(headerFixed, withPaging)
   }
 
-  public componentDidUpdate () {
+  public componentDidUpdate() {
     const { headerFixed, withPaging } = this.props.chartStyles.table
     this.adjustTableCell(headerFixed, withPaging, this.state.tablePagination.total)
   }
 
-  private adjustTableCell (headerFixed: boolean, withPaging: boolean, dataTotal?: number) {
+  private adjustTableCell(headerFixed: boolean, withPaging: boolean, dataTotal?: number) {
     const tableDom = findDOMNode(this.table.current) as Element
     const excludeElems = []
     let paginationMargin = 0
@@ -168,7 +169,7 @@ export class Table extends React.PureComponent<IChartProps, ITableStates> {
     })
   }
 
-  public static getDerivedStateFromProps (nextProps: IChartProps, prevState: ITableStates) {
+  public static getDerivedStateFromProps(nextProps: IChartProps, prevState: ITableStates) {
     const { chartStyles, data, width } = nextProps
     if (chartStyles !== prevState.chartStyles
       || data !== prevState.data
@@ -181,7 +182,7 @@ export class Table extends React.PureComponent<IChartProps, ITableStates> {
     return { chartStyles, data, width }
   }
 
-  private adjustTableColumns (tableColumns: Array<ColumnProps<any>>, mapTableHeaderConfig: IMapTableHeaderConfig, containerWidth: number) {
+  private adjustTableColumns(tableColumns: Array<ColumnProps<any>>, mapTableHeaderConfig: IMapTableHeaderConfig, containerWidth: number) {
     const totalWidth = tableColumns.reduce((acc, col) => acc + Number(col.width), 0)
     const ratio = totalWidth < containerWidth ? containerWidth / totalWidth : 1
     traverseConfig<ColumnProps<any>>(tableColumns, 'children', (column, idx, siblings) => {
@@ -200,7 +201,7 @@ export class Table extends React.PureComponent<IChartProps, ITableStates> {
     return Object.values(record).join('_' + idx)
   }
 
-  private getTableScroll (
+  private getTableScroll(
     columns: Array<ColumnProps<any>>,
     containerWidth: number,
     headerFixed: boolean,
@@ -217,14 +218,14 @@ export class Table extends React.PureComponent<IChartProps, ITableStates> {
     return scroll
   }
 
-  private isSameObj (
+  private isSameObj(
     prevObj: object,
     nextObj: object,
     isSourceData?: boolean
   ): boolean {
     let isb = void 0
-    const clonePrevObj = {...prevObj}
-    const cloneNextObj = {...nextObj}
+    const clonePrevObj = { ...prevObj }
+    const cloneNextObj = { ...nextObj }
     if (isSourceData === true) {
       delete clonePrevObj['key']
       delete clonePrevObj['value']
@@ -273,12 +274,12 @@ export class Table extends React.PureComponent<IChartProps, ITableStates> {
         const isb = selectedRow.some((sr) => this.isSameObj(sr, recordConcatFilter, true))
         if (isb) {
           for (let index = 0, l = selectedRow.length; index < l; index++) {
-              if (this.isSameObj(selectedRow[index], recordConcatFilter, true)) {
-                selectedRow.splice(index, 1)
-                break
-              }
+            if (this.isSameObj(selectedRow[index], recordConcatFilter, true)) {
+              selectedRow.splice(index, 1)
+              break
+            }
           }
-        } else  {
+        } else {
           selectedRow.push(recordConcatFilter)
         }
       }
@@ -287,7 +288,7 @@ export class Table extends React.PureComponent<IChartProps, ITableStates> {
     this.setState({
       selectedRow
     }, () => {
-      const brushed = [{0: Object.values(this.state.selectedRow)}]
+      const brushed = [{ 0: Object.values(this.state.selectedRow) }]
       const sourceData = Object.values(this.state.selectedRow)
       const isInteractiveChart = onCheckTableInteract && onCheckTableInteract()
       if (isInteractiveChart && onDoInteract) {
@@ -297,21 +298,21 @@ export class Table extends React.PureComponent<IChartProps, ITableStates> {
       }
       setTimeout(() => {
         if (getDataDrillDetail) {
-          getDataDrillDetail(JSON.stringify({filterObj, brushed, sourceData}))
+          getDataDrillDetail(JSON.stringify({ filterObj, brushed, sourceData }))
         }
       }, 500)
     })
   }
 
   private setRowClassName = (record, row) =>
-   this.state.selectedRow.some((sr) => this.isSameObj(sr, record, true)) ? Styles.selectedRow : Styles.unSelectedRow
+    this.state.selectedRow.some((sr) => this.isSameObj(sr, record, true)) ? Styles.selectedRow : Styles.unSelectedRow
 
 
-  private getTableStyle (
+  private getTableStyle(
     headerFixed: boolean,
     tableBodyHeght: number
   ) {
-    const tableStyle: React.CSSProperties = { }
+    const tableStyle: React.CSSProperties = {}
     if (!headerFixed) {
       tableStyle.height = tableBodyHeght
       tableStyle.overflowY = 'scroll'
@@ -319,8 +320,8 @@ export class Table extends React.PureComponent<IChartProps, ITableStates> {
     return tableStyle
   }
 
-  public render () {
-    const { data, chartStyles, width } = this.props
+  public render() {
+    const { data, chartStyles, width, widgetName } = this.props
     const { headerFixed, bordered, withPaging, size } = chartStyles.table
     const { tablePagination, tableColumns, tableBodyHeight, mapTableHeaderConfig } = this.state
     const adjustedTableColumns = this.adjustTableColumns(tableColumns, mapTableHeaderConfig, width)
@@ -343,6 +344,13 @@ export class Table extends React.PureComponent<IChartProps, ITableStates> {
       [Styles.table]: true,
       [Styles.noBorder]: bordered !== undefined && !bordered
     })
+    //console.log(this)
+    //console.log(widgetName)
+    if (widgetName != undefined && widgetName.indexOf("__") == 0) {
+      style.overflowY = 'hidden'
+      style.overflowX = 'hidden'
+      //console.log('modify hidden')
+    }
 
     return (
       <>
@@ -371,7 +379,7 @@ export class Table extends React.PureComponent<IChartProps, ITableStates> {
 export default Table
 
 
-function getTableColumns (props: IChartProps) {
+function getTableColumns(props: IChartProps) {
   const { chartStyles } = props
   if (!chartStyles.table) {
     return {
@@ -521,7 +529,7 @@ function getTableColumns (props: IChartProps) {
   return { tableColumns, mapTableHeaderConfig }
 }
 
-function getPaginationOptions (props: IChartProps) {
+function getPaginationOptions(props: IChartProps) {
   const { chartStyles, width, pagination } = props
   // fixme
   let pageNo = void 0
@@ -529,7 +537,7 @@ function getPaginationOptions (props: IChartProps) {
   let totalCount = void 0
   if (pagination) {
     pageNo = pagination.pageNo
-    pageSize =  pagination.pageSize
+    pageSize = pagination.pageSize
     totalCount = pagination.totalCount
   }
   // const { pageNo, pageSize, totalCount } = pagination

@@ -166,6 +166,7 @@ export interface IWidgetConfig extends IWidgetProps {
 export interface IWidgetWrapperProps extends IWidgetProps {
   loading?: boolean | JSX.Element
   empty?: boolean | JSX.Element
+  widgetName: string
 }
 
 export interface IWidgetWrapperStates {
@@ -235,7 +236,6 @@ export class Widget extends React.Component<
           <Pivot {...widgetProps} />
         )
     }
-    //console.log('widget render')
     return (
       <div className={styles.wrapper} ref={this.container}>
         {widgetContent}

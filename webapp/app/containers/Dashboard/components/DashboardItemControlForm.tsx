@@ -50,7 +50,7 @@ interface IDashboardItemControlFormProps {
   controls: ILocalControl[]
   mapOptions: IMapControlOptions
   onGetOptions: OnGetControlOptions
-  onSearch: (queayConditions: Partial<IQueryConditions>) => void
+  onSearch: (queryConditions: Partial<IQueryConditions>) => void
   onHide: () => void
 }
 

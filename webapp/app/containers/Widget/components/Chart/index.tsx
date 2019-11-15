@@ -10,6 +10,7 @@ import ChartTypes from '../../config/chart/ChartTypes'
 export interface IChartProps extends IWidgetProps {
   width: number
   height: number
+  widgetName: string
 }
 
 export class CombinedChart extends Component<IChartProps, {}> {

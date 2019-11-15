@@ -274,7 +274,7 @@ export class DashboardItem extends React.PureComponent<IDashboardItemProps, IDas
     }
   }
 
-  private onSyncBizdatas = () => {
+  public onSyncBizdatas = () => {
     const {
       itemId,
       widget,
@@ -982,7 +982,7 @@ export class DashboardItem extends React.PureComponent<IDashboardItemProps, IDas
     //console.log(widget)
     //console.log(this)
     //console.log(widget)
-    const dashBoardItemTitle = (
+    var dashBoardItemTitle = (
       <div className={styles.header} style={{height:'15px'}}>
         <div className={styles.title}>
           {controlToggle}
@@ -1006,15 +1006,16 @@ export class DashboardItem extends React.PureComponent<IDashboardItemProps, IDas
         </div>
       </div>
     )
-
+    if(widget.name.indexOf("__")==0){
+      dashBoardItemTitle=(<span></span>)
+    }
     return (
       <div className={gridItemClass} ref={(f) => this.container = f}>
         {dashBoardItemTitle}
-
-        {/* <div className={triggerClass}>
-          <i className="iconfont icon-icon_linkage"/>
-        </div> */}
         {/* 注释可钻取，可联动 */}
+        <div className={triggerClass}>
+          <i className="iconfont icon-icon_linkage"/>
+        </div>
         {/* <div className={styles.trigger}>
           {drillInteractIcon}
         </div> */}
@@ -1047,6 +1048,7 @@ export class DashboardItem extends React.PureComponent<IDashboardItemProps, IDas
           <div className={styles.block}>
             <Widget
               {...widgetProps}
+              widgetName={widget.name}
               renderType={loading ? 'loading' : renderType}
               data={data}
               interacting={this.props.interacting}
