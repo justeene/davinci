@@ -1003,7 +1003,8 @@ export class Grid extends React.Component<IGridProps, IGridStates> {
       // console.log(itemId)
       if (filters[itemId][0].operator == 'full') {
         //直接全屏，不筛选数据
-        this.dashboardItems.get(+linkagerItemId).onFullScreen();
+        //this.dashboardItems.get(+linkagerItemId).onFullScreen();
+        this[`dashboardItem${linkagerItemId}`].onFullScreen()
       } else {
         this.getChartData('clear', +linkagerItemId, item.widgetId, {
           linkageFilters: Object.values(filters).reduce<string[]>((arr, f: string[]) => arr.concat(...f), []),
@@ -1492,13 +1493,13 @@ export class Grid extends React.Component<IGridProps, IGridStates> {
     onSelectDashboardItemChart(itemId, renderType, selectedItems)
   }
   dashboardItems = new Map();
-  getDashboardItem = (ref) => {
-    //console.log(ref)
-    if (ref != null) {
-      this.dashboardItems.set(ref.props.itemId, ref)
-      //console.log(this.dashboardItems)
-    }
-  }
+  // getDashboardItem = (ref) => {
+  //   //console.log(ref)
+  //   if (ref != null) {
+  //     this.dashboardItems.set(ref.props.itemId, ref)
+  //     //console.log(this.dashboardItems)
+  //   }
+  // }
 
   public render() {
     const {
@@ -1655,8 +1656,12 @@ export class Grid extends React.Component<IGridProps, IGridStates> {
               selectedItems={selectedItems || []}
               monitoredSyncDataAction={this.props.onMonitoredSyncDataAction}
               monitoredSearchDataAction={this.props.onMonitoredSearchDataAction}
-              // ref={(f) => this[`dashboardItem${id}`] = f}
-              ref={this.getDashboardItem}
+              //ref={(f) => this[`dashboardItem${id}`] = f}
+              ref={(f) => {
+                this[`dashboardItem${id}`] = f
+                //console.log(this)
+              }}
+              //ref={this.getDashboardItem}
             />
           </div>
         ))

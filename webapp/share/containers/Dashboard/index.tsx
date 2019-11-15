@@ -41,7 +41,7 @@ import { ChartTypes } from 'app/containers/Widget/config/chart/ChartTypes'
 import { IMapItemControlRequestParams, IMapControlOptions, IFilters } from 'app/components/Filters/types'
 import GlobalControlPanel from 'app/components/Filters/FilterPanel'
 import DownloadList from 'app/components/DownloadList'
-import {getValidColumnValue} from 'app/components/Filters/util'
+import { getValidColumnValue } from 'app/components/Filters/util'
 
 import { RenderType, IWidgetConfig, IWidgetProps } from 'app/containers/Widget/components/Widget'
 import { ViewActions } from 'app/containers/View/actions'
@@ -176,7 +176,7 @@ interface IDashboardStates {
 }
 
 export class Share extends React.Component<IDashboardProps, IDashboardStates> {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       type: '',
@@ -237,7 +237,7 @@ export class Share extends React.Component<IDashboardProps, IDashboardStates> {
       })
     }
   }
-  public componentWillMount () {
+  public componentWillMount() {
     // urlparse
     const qs = this.getQs(location.href.substr(location.href.indexOf('?') + 1))
     this.setState({
@@ -251,11 +251,11 @@ export class Share extends React.Component<IDashboardProps, IDashboardStates> {
     this.props.onSendShareParams(qs)
   }
 
-  public componentDidMount () {
+  public componentDidMount() {
     window.addEventListener('resize', this.onWindowResize, false)
   }
 
-  public componentWillReceiveProps (nextProps: IDashboardProps) {
+  public componentWillReceiveProps(nextProps: IDashboardProps) {
     const { currentItems, currentItemsInfo, dashboard, widgets } = nextProps
     if (widgets && widgets !== this.props.widgets) {
       try {
@@ -291,7 +291,7 @@ export class Share extends React.Component<IDashboardProps, IDashboardStates> {
     // }
   }
 
-  public componentWillUnmount () {
+  public componentWillUnmount() {
     window.removeEventListener('resize', this.onWindowResize, false)
     if (this.downloadListPollingTimer) {
       clearInterval(this.downloadListPollingTimer)
@@ -422,7 +422,7 @@ export class Share extends React.Component<IDashboardProps, IDashboardStates> {
     }
 
     let groups = cols.concat(rows).filter((g) => g.name !== '指标名称').map((g) => g.name)
-    let aggregators =  metrics.map((m) => ({
+    let aggregators = metrics.map((m) => ({
       column: decodeMetricName(m.name),
       func: m.agg
     }))
@@ -517,7 +517,7 @@ export class Share extends React.Component<IDashboardProps, IDashboardStates> {
   }
 
   private visibleFullScreen = (currentChartData) => {
-    const {allowFullScreen} = this.state
+    const { allowFullScreen } = this.state
     if (currentChartData) {
       this.setState({
         currentDataInFullScreen: currentChartData
@@ -529,29 +529,29 @@ export class Share extends React.Component<IDashboardProps, IDashboardStates> {
   }
 
   private currentWidgetInFullScreen = (id) => {
-    const {currentItems, currentItemsInfo, widgets} = this.props
+    const { currentItems, currentItemsInfo, widgets } = this.props
     const item = currentItems.find((ci) => ci.id === id)
     const widget = widgets.find((w) => w.id === item.widgetId)
     const data = currentItemsInfo[id]
     const loading = currentItemsInfo['loading']
     this.setState({
       currentDataInFullScreen: {
-            itemId: id,
-            widgetId: widget.id,
-            widget,
-            data,
-            loading,
-            onGetChartData: this.getChartData
-        }
+        itemId: id,
+        widgetId: widget.id,
+        widget,
+        data,
+        loading,
+        onGetChartData: this.getChartData
+      }
     })
   }
 
   private handleLegitimateUser = () => {
-    const {type, shareInfo} = this.state
+    const { type, shareInfo } = this.state
     this.setState({
       showLogin: false
     }, () => {
-      this.loadShareContent({type, shareInfo})
+      this.loadShareContent({ type, shareInfo })
     })
   }
 
@@ -578,10 +578,16 @@ export class Share extends React.Component<IDashboardProps, IDashboardStates> {
     Object.keys(mappingLinkage).forEach((linkagerItemId) => {
       const item = currentItems.find((ci) => ci.id === +linkagerItemId)
       const { filters, variables } = this.interactingLinkagers[linkagerItemId]
-      this.getChartData('rerender', +linkagerItemId, item.widgetId, {
-        linkageFilters: Object.values(filters).reduce<string[]>((arr, f: string[]) => arr.concat(...f), []),
-        linkageVariables: Object.values(variables).reduce<QueryVariable>((arr, p: QueryVariable) => arr.concat(...p), [])
-      })
+      if (filters[itemId][0].operator == 'full') {
+        //直接全屏，不筛选数据
+        //this.dashboardItems.get(+linkagerItemId).onFullScreen();
+        this[`dashboardItem${linkagerItemId}`].onFullScreen()
+      } else {
+        this.getChartData('rerender', +linkagerItemId, item.widgetId, {
+          linkageFilters: Object.values(filters).reduce<string[]>((arr, f: string[]) => arr.concat(...f), []),
+          linkageVariables: Object.values(variables).reduce<QueryVariable>((arr, p: QueryVariable) => arr.concat(...p), [])
+        })
+      }
     })
     this.setState({
       interactingStatus: {
@@ -642,8 +648,8 @@ export class Share extends React.Component<IDashboardProps, IDashboardStates> {
           const widgetProps: IWidgetProps = JSON.parse(widget.config)
           const { mode, selectedChart, chartStyles } = widgetProps
           if (mode === 'chart'
-              && selectedChart === getTable().id
-              && chartStyles.table.withPaging) {
+            && selectedChart === getTable().id
+            && chartStyles.table.withPaging) {
             pagination = {
               pageSize: Number(chartStyles.table.pageSize),
               ...pagination,
@@ -696,7 +702,7 @@ export class Share extends React.Component<IDashboardProps, IDashboardStates> {
     let name = void 0
     let filterSource = void 0
     let widgetConfigGroups = cols.concat(rows).filter((g) => g.name !== '指标名称').map((g) => g.name)
-    let aggregators =  metrics.map((m) => ({
+    let aggregators = metrics.map((m) => ({
       column: decodeMetricName(m.name),
       func: m.agg
     }))
@@ -746,7 +752,7 @@ export class Share extends React.Component<IDashboardProps, IDashboardStates> {
         } else if (dimetionAxis === 'row') {
           const rows = widgetConfig.rows
           name = rows[rows.length - 1]['name']
-        } else if (mode === 'chart'  && widgetConfig.selectedChart === ChartTypes.Table) {
+        } else if (mode === 'chart' && widgetConfig.selectedChart === ChartTypes.Table) {
           // todo coustomTable
           const coustomTable = sourceDataFilter.reduce((a, b) => {
             a[b['key']] === undefined ? a[b['key']] = [b['value']] : a[b['key']].push(b['value'])
@@ -763,14 +769,14 @@ export class Share extends React.Component<IDashboardProps, IDashboardStates> {
                 sqlType
               }
               coustomTableSqls.push(filterJson)
-             // coustomTableSqls.push(`${attr} in (${coustomTable[attr].map((key) => `'${key}'`).join(',')})`)
+              // coustomTableSqls.push(`${attr} in (${coustomTable[attr].map((key) => `'${key}'`).join(',')})`)
             }
           }
           const drillKey = sourceDataFilter[sourceDataFilter.length - 1]['key']
           const newWidgetPropCols = widgetConfigCols.reduce((array, col) => {
             array.push(col)
             if (col.name === drillKey) {
-              array.push({name: groups})
+              array.push({ name: groups })
             }
             return array
           }, [])
@@ -783,7 +789,7 @@ export class Share extends React.Component<IDashboardProps, IDashboardStates> {
         }
       })
       if (name && name.length) {
-        currentCol = col && col.length ? widgetConfigCols.concat([{name: col}]) : void 0
+        currentCol = col && col.length ? widgetConfigCols.concat([{ name: col }]) : void 0
         const sqlType = model[name] && model[name]['sqlType'] ? model[name]['sqlType'] : 'VARCHAR'
         sql = {
           name,
@@ -821,7 +827,7 @@ export class Share extends React.Component<IDashboardProps, IDashboardStates> {
         },
         type: isDrillUp ? 'up' : 'down',
         col: currentCol,
-        row: row && row.length ? widgetConfigRows.concat([{name: row}]) : void 0,
+        row: row && row.length ? widgetConfigRows.concat([{ name: row }]) : void 0,
         groups: currentDrillGroups,
         // groups: isDrillUp
         //         ? widgetConfigGroups.filter((cg) => cg !== groups)
@@ -833,7 +839,7 @@ export class Share extends React.Component<IDashboardProps, IDashboardStates> {
       const lastDrillHistory = drillHistory[drillHistory.length - 1]
       let currentCol = void 0
       let currentRow = void 0
-     // todo
+      // todo
       if (mode === 'chart' && widgetConfig.selectedChart === ChartTypes.Table) {
         const coustomTable = sourceDataFilter.reduce((a, b) => {
           a[b['key']] === undefined ? a[b['key']] = [b['value']] : a[b['key']].push(b['value'])
@@ -850,7 +856,7 @@ export class Share extends React.Component<IDashboardProps, IDashboardStates> {
               sqlType
             }
             coustomTableSqls.push(filterJson)
-          //  coustomTableSqls.push(`${attr} in (${coustomTable[attr].map((key) => `'${key}'`).join(',')})`)
+            //  coustomTableSqls.push(`${attr} in (${coustomTable[attr].map((key) => `'${key}'`).join(',')})`)
           }
         }
         if (Array.isArray(coustomTableSqls) && coustomTableSqls.length > 0) {
@@ -862,7 +868,7 @@ export class Share extends React.Component<IDashboardProps, IDashboardStates> {
           const newWidgetPropCols = cols.reduce((array, col) => {
             array.push(col)
             if (col.name === drillKey) {
-              array.push({name: groups})
+              array.push({ name: groups })
             }
             return array
           }, [])
@@ -872,7 +878,7 @@ export class Share extends React.Component<IDashboardProps, IDashboardStates> {
         name = lastDrillHistory.groups[lastDrillHistory.groups.length - 1]
         filterSource = sourceDataFilter.map((source) => source[name])
         const sqlType = model[name] && model[name]['sqlType'] ? model[name]['sqlType'] : 'VARCHAR'
-       // sql = `${name} in (${filterSource.map((key) => `'${key}'`).join(',')})`
+        // sql = `${name} in (${filterSource.map((key) => `'${key}'`).join(',')})`
         sql = {
           name,
           operator: 'in',
@@ -881,8 +887,8 @@ export class Share extends React.Component<IDashboardProps, IDashboardStates> {
           sqlType
         }
         sqls = lastDrillHistory.filter.sqls.concat(sql)
-        currentCol = col && col.length ? (lastDrillHistory.col || []).concat({name: col}) : lastDrillHistory.col
-        currentRow = row && row.length ? (lastDrillHistory.row || []).concat({name: row}) : lastDrillHistory.row
+        currentCol = col && col.length ? (lastDrillHistory.col || []).concat({ name: col }) : lastDrillHistory.col
+        currentRow = row && row.length ? (lastDrillHistory.row || []).concat({ name: row }) : lastDrillHistory.row
       }
       const isDrillUp = lastDrillHistory.groups.some((cg) => cg === groups)
       let currentDrillGroups = void 0
@@ -914,8 +920,8 @@ export class Share extends React.Component<IDashboardProps, IDashboardStates> {
     }
     onDrillDashboardItem(itemId, currentDrillStatus)
     this.getChartData('rerender', itemId, widgetId, {
-        drillStatus: currentDrillStatus
-      })
+      drillStatus: currentDrillStatus
+    })
   }
 
   private selectDrillHistory = (history, item, itemId, widgetId) => {
@@ -943,7 +949,7 @@ export class Share extends React.Component<IDashboardProps, IDashboardStates> {
     this.props.onDownloadFile(id, this.shareClientId, this.state.shareInfo)
   }
 
-  public render () {
+  public render() {
     const {
       dashboard,
       title,
@@ -970,7 +976,7 @@ export class Share extends React.Component<IDashboardProps, IDashboardStates> {
 
     if (currentItems) {
       const itemblocks: React.ReactNode[] = []
-      const layouts = {lg: []}
+      const layouts = { lg: [] }
 
       currentItems.forEach((dashboardItem) => {
         const { id, x, y, width, height, widgetId, polling, frequency } = dashboardItem
@@ -1024,6 +1030,10 @@ export class Share extends React.Component<IDashboardProps, IDashboardStates> {
               container="share"
               selectedItems={selectedItems || []}
               onSelectChartsItems={this.selectChartsItems}
+              ref={(f) => {
+                this[`dashboardItem${id}`] = f
+                //console.log(this)
+              }}
             />
           </div>
         ))
@@ -1040,7 +1050,7 @@ export class Share extends React.Component<IDashboardProps, IDashboardStates> {
       grids = (
         <ResponsiveReactGridLayout
           className="layout"
-          style={{marginTop: '-16px'}}
+          style={{ marginTop: '-16px' }}
           rowHeight={GRID_ROW_HEIGHT}
           margin={[GRID_ITEM_MARGIN, GRID_ITEM_MARGIN]}
           breakpoints={GRID_BREAKPOINTS}
@@ -1094,10 +1104,10 @@ export class Share extends React.Component<IDashboardProps, IDashboardStates> {
       <Container>
         <Helmet title={title} />
         <Container.Title>
-          <Row style={{marginTop:'-10px'}}>
+          <Row style={{ marginTop: '-10px' }}>
             <Col span={24}>
               {/* <h2 className={styles.shareTitle}>{title}</h2> */}
-              <div className={styles.shareDownloadListToggle} style={{marginTop:'-10px'}}>
+              <div className={styles.shareDownloadListToggle} style={{ marginTop: '-10px' }}>
                 <DownloadList
                   downloadList={downloadList}
                   onLoadDownloadList={this.loadDownloadList}
@@ -1106,7 +1116,7 @@ export class Share extends React.Component<IDashboardProps, IDashboardStates> {
               </div>
             </Col>
           </Row>
-          
+
           <GlobalControlPanel
             currentDashboard={dashboard}
             currentItems={currentItems}
@@ -1139,7 +1149,7 @@ const mapStateToProps = createStructuredSelector({
   shareParams: makeSelectShareParams()
 })
 
-export function mapDispatchToProps (dispatch) {
+export function mapDispatchToProps(dispatch) {
   return {
     onLoadViewsDetail: (viewIds, resolve) => dispatch(loadViewsDetail(viewIds, resolve)),
     onLoadDashboard: (token, reject) => dispatch(getDashboard(token, reject)),
