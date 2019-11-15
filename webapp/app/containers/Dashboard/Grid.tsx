@@ -994,7 +994,7 @@ export class Grid extends React.Component<IGridProps, IGridStates> {
     const mappingLinkage = getMappingLinkage(itemId, currentLinkages)
 
     this.interactingLinkagers = processLinkage(itemId, triggerData, mappingLinkage, this.interactingLinkagers)
-    
+
     Object.keys(mappingLinkage).forEach((linkagerItemId) => {
       const item = currentItems.find((ci) => ci.id === +linkagerItemId)
       const { filters, variables } = this.interactingLinkagers[linkagerItemId]
@@ -1494,8 +1494,10 @@ export class Grid extends React.Component<IGridProps, IGridStates> {
   dashboardItems = new Map();
   getDashboardItem = (ref) => {
     //console.log(ref)
-    this.dashboardItems.set(ref.props.itemId, ref)
-    //console.log(this.dashboardItems)
+    if (ref != null) {
+      this.dashboardItems.set(ref.props.itemId, ref)
+      //console.log(this.dashboardItems)
+    }
   }
 
   public render() {
