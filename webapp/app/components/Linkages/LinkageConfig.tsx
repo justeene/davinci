@@ -25,7 +25,7 @@ interface ILinkageConfigStates {
 }
 
 export class LinkageConfig extends React.PureComponent<ILinkageConfigProps, ILinkageConfigStates> {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       formVisible: false,
@@ -40,12 +40,12 @@ export class LinkageConfig extends React.PureComponent<ILinkageConfigProps, ILin
   private refHandlers: { linkageForm: (ref: AntdFormType) => void }
   private linkageForm: AntdFormType = null
 
-  public componentDidMount () {
+  public componentDidMount() {
     const { linkages, onGetWidgetInfo } = this.props
     this.initState(linkages, onGetWidgetInfo)
   }
 
-  public componentWillReceiveProps (nextProps: ILinkageConfigProps) {
+  public componentWillReceiveProps(nextProps: ILinkageConfigProps) {
     const { linkages, onGetWidgetInfo, saving, onSave } = nextProps
     if (linkages !== this.props.linkages) {
       this.initState(linkages, onGetWidgetInfo)
@@ -163,7 +163,7 @@ export class LinkageConfig extends React.PureComponent<ILinkageConfigProps, ILin
       if (!err) {
         const { localLinkages } = this.state
         this.setState({
-          localLinkages: [ ...localLinkages, { ...values, key: uuid(8, 16) } ],
+          localLinkages: [...localLinkages, { ...values, key: uuid(8, 16) }],
           formVisible: false
         }, () => {
           const { onGetWidgetInfo } = this.props
@@ -182,7 +182,7 @@ export class LinkageConfig extends React.PureComponent<ILinkageConfigProps, ILin
     })
   }
 
-  public render () {
+  public render() {
     const {
       cascaderSource
     } = this.props
@@ -223,7 +223,11 @@ export class LinkageConfig extends React.PureComponent<ILinkageConfigProps, ILin
                   const { cascaderSource } = this.props
                   const triggerData = cascaderSource.find((ts) => ts.value === val[0])
                   const triggerColumnData = triggerData.children.columns.find((c) => c.value === val[1])
-                  return `${triggerData.label} - ${triggerColumnData.label}`
+                  if (triggerColumnData == undefined) {
+                    return `${triggerData.label} - undefined`
+                  } else {
+                    return `${triggerData.label} - ${triggerColumnData.label}`
+                  }
                 }
               }, {
                 key: 'linkager',

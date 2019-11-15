@@ -84,7 +84,9 @@ module.exports = require('./webpack.base.babel')({
 
     // Emit a source map for easier debugging
     // See https://webpack.js.org/configuration/devtool/#devtool
-    devtool: 'eval',
+    //devtool: 'eval',//最快
+    //devtool: 'inline-cheap-module-source-map', //仅限行
+    devtool: 'eval-source-map', //原始
 
     performance: {
         hints: false

@@ -983,38 +983,37 @@ export class DashboardItem extends React.PureComponent<IDashboardItemProps, IDas
     //console.log(this)
     //console.log(widget)
     var dashBoardItemTitle = (
-      <div className={styles.header} style={{height:'15px'}}>
-        <div className={styles.title}>
-          {controlToggle}
-          <h4 dangerouslySetInnerHTML={{ __html: widget.name }}></h4>
-          {loadingIcon}
-          {descToggle}
-          {errorToggle}
-          {}
-        </div>
-        <div className={styles.tools}>
-          <Tooltip title="同步数据">
-            {!loading && <Icon type="reload" onClick={this.onSyncBizdatas} />}
-          </Tooltip>
-          {widgetButton}
-          <Tooltip title="全屏">
-            <Icon type="arrows-alt" onClick={this.onFullScreen} className={styles.fullScreen} />
-          </Tooltip>
-          {shareButton}
-          {downloadButton}
-          {dropdownMenu}
-        </div>
-      </div>
+      <h4 dangerouslySetInnerHTML={{ __html: widget.name }}></h4>
     )
-    if(widget.name.indexOf("__")==0){
-      dashBoardItemTitle=(<span></span>)
+    if (widget.name.indexOf("__") == 0) {
+      dashBoardItemTitle = (<span></span>)
     }
     return (
       <div className={gridItemClass} ref={(f) => this.container = f}>
-        {dashBoardItemTitle}
+        <div className={styles.header} style={{ height: '15px' }}>
+          <div className={styles.title}>
+            {controlToggle}
+            {dashBoardItemTitle}
+            {loadingIcon}
+            {descToggle}
+            {errorToggle}
+          </div>
+          <div className={styles.tools}>
+            <Tooltip title="同步数据">
+              {!loading && <Icon type="reload" onClick={this.onSyncBizdatas} />}
+            </Tooltip>
+            {widgetButton}
+            <Tooltip title="全屏">
+              <Icon type="arrows-alt" onClick={this.onFullScreen} className={styles.fullScreen} />
+            </Tooltip>
+            {shareButton}
+            {downloadButton}
+            {dropdownMenu}
+          </div>
+        </div>
         {/* 注释可钻取，可联动 */}
         <div className={triggerClass}>
-          <i className="iconfont icon-icon_linkage"/>
+          <i className="iconfont icon-icon_linkage" />
         </div>
         {/* <div className={styles.trigger}>
           {drillInteractIcon}
