@@ -101,15 +101,15 @@ interface IDashboardItemStates {
   model: IViewModel
   isDrilling: boolean
   dataDrillPanelPosition: boolean | object
-  whichDataDrillBrushed: boolean | object []
-  sourceDataOfBrushed: boolean | object []
+  whichDataDrillBrushed: boolean | object[]
+  sourceDataOfBrushed: boolean | object[]
   // isShowDrillPanel: boolean
   cacheWidgetProps: IWidgetConfig
   cacheWidgetId: boolean | number
 }
 
 export class DashboardItem extends React.PureComponent<IDashboardItemProps, IDashboardItemStates> {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       controlPanelVisible: false,
@@ -137,7 +137,7 @@ export class DashboardItem extends React.PureComponent<IDashboardItemProps, IDas
   private pollingTimer: number
   private container: HTMLDivElement = null
 
-  public componentWillMount () {
+  public componentWillMount() {
     const { itemId, widget, view, onGetChartData, container, datasource } = this.props
     const { cacheWidgetProps, cacheWidgetId } = this.state
     const widgetProps = JSON.parse(widget.config)
@@ -158,13 +158,13 @@ export class DashboardItem extends React.PureComponent<IDashboardItemProps, IDas
     })
     if (!cacheWidgetProps) {
       this.setState({
-        cacheWidgetProps: {...widgetProps},
+        cacheWidgetProps: { ...widgetProps },
         cacheWidgetId: widget.id
       })
     }
   }
 
-  public componentWillReceiveProps (nextProps: IDashboardItemProps) {
+  public componentWillReceiveProps(nextProps: IDashboardItemProps) {
     const { widget, queryConditions, renderType } = this.props
     let { widgetProps, pagination, model } = this.state
 
@@ -221,7 +221,7 @@ export class DashboardItem extends React.PureComponent<IDashboardItemProps, IDas
     }
   }
 
-  public componentWillUnmount () {
+  public componentWillUnmount() {
     clearInterval(this.pollingTimer)
   }
 
@@ -699,7 +699,7 @@ export class DashboardItem extends React.PureComponent<IDashboardItemProps, IDas
   //   console.log('shouldComponentUpdate')
   // }
   public render() {
-    
+
     const {
       itemId,
       widget,
@@ -982,38 +982,42 @@ export class DashboardItem extends React.PureComponent<IDashboardItemProps, IDas
     //console.log(widget)
     //console.log(this)
     //console.log(widget)
+    const dashBoardItemTitle = (
+      <div className={styles.header} style={{height:'15px'}}>
+        <div className={styles.title}>
+          {controlToggle}
+          <h4 dangerouslySetInnerHTML={{ __html: widget.name }}></h4>
+          {loadingIcon}
+          {descToggle}
+          {errorToggle}
+          {}
+        </div>
+        <div className={styles.tools}>
+          <Tooltip title="同步数据">
+            {!loading && <Icon type="reload" onClick={this.onSyncBizdatas} />}
+          </Tooltip>
+          {widgetButton}
+          <Tooltip title="全屏">
+            <Icon type="arrows-alt" onClick={this.onFullScreen} className={styles.fullScreen} />
+          </Tooltip>
+          {shareButton}
+          {downloadButton}
+          {dropdownMenu}
+        </div>
+      </div>
+    )
+
     return (
       <div className={gridItemClass} ref={(f) => this.container = f}>
-        <div className={styles.header}>
-          <div className={styles.title}>
-            {controlToggle}
-            <h4 dangerouslySetInnerHTML={{ __html: widget.name }}></h4>
-            {loadingIcon}
-            {descToggle}
-            {errorToggle}
-            {}
-          </div>
-          <div className={styles.tools}>
-            <Tooltip title="同步数据">
-              {!loading && <Icon type="reload" onClick={this.onSyncBizdatas} />}
-            </Tooltip>
-            {widgetButton}
-            <Tooltip title="全屏">
-              <Icon type="arrows-alt" onClick={this.onFullScreen} className={styles.fullScreen} />
-            </Tooltip>
-            {shareButton}
-            {downloadButton}
-            {dropdownMenu}
-          </div>
-        </div>
+        {dashBoardItemTitle}
 
         {/* <div className={triggerClass}>
           <i className="iconfont icon-icon_linkage"/>
         </div> */}
-
-        <div className={styles.trigger}>
+        {/* 注释可钻取，可联动 */}
+        {/* <div className={styles.trigger}>
           {drillInteractIcon}
-        </div>
+        </div> */}
         {/* <div
           className={styles.offInteract}
           onClick={this.turnOffInteract}
