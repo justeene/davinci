@@ -23,12 +23,12 @@ export const envName = {
   dev: 'dev'
 }
 
-if (JSON.stringify(process.env).indexOf('development')>-1) {
-  console.log('development');
-}
-else {
-  console.log('production');
-}
+// if (JSON.stringify(process.env).indexOf('development')>-1) {
+//   console.log('development');
+// }
+// else {
+//   console.log('production');
+// }
 export const env = JSON.stringify(process.env).indexOf('development')>-1?envName.dev:envName.production;
 
 export default {

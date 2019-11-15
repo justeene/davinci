@@ -194,7 +194,7 @@ export class DashboardItem extends React.PureComponent<IDashboardItemProps, IDas
     })
   }
 
-  public componentWillUpdate (nextProps: IDashboardItemProps, nextState: IDashboardItemStates) {
+  public componentWillUpdate(nextProps: IDashboardItemProps, nextState: IDashboardItemStates) {
     const {
       itemId,
       widget,
@@ -308,7 +308,7 @@ export class DashboardItem extends React.PureComponent<IDashboardItemProps, IDas
     })
   }
 
-  private onFullScreen = () => {
+  public onFullScreen = () => {
     const {
       onShowFullScreen,
       itemId,
@@ -317,7 +317,6 @@ export class DashboardItem extends React.PureComponent<IDashboardItemProps, IDas
       renderType,
       onGetChartData
     } = this.props
-
     if (onShowFullScreen) {
       onShowFullScreen({
         itemId,
@@ -369,13 +368,13 @@ export class DashboardItem extends React.PureComponent<IDashboardItemProps, IDas
   }
 
   private doDrill = () => {
-    const {cacheWidgetProps} = this.state
-    this.setState({isDrilling: !this.state.isDrilling}, () => {
+    const { cacheWidgetProps } = this.state
+    this.setState({ isDrilling: !this.state.isDrilling }, () => {
       const { onSelectDrillHistory, itemId, widget, onGetChartData } = this.props
       onSelectDrillHistory(false, -1, itemId, widget.id)
-      this.setState({widgetProps: cacheWidgetProps}, () => onGetChartData('rerender', itemId, widget.id))
+      this.setState({ widgetProps: cacheWidgetProps }, () => onGetChartData('rerender', itemId, widget.id))
       if (!this.state.isDrilling) {
-        this.setState({whichDataDrillBrushed: false})
+        this.setState({ whichDataDrillBrushed: false })
       }
     })
   }
@@ -389,7 +388,7 @@ export class DashboardItem extends React.PureComponent<IDashboardItemProps, IDas
     if (position && position.length) {
       try {
         const ps = JSON.parse(position)
-        const {range, brushed, sourceData} = ps
+        const { range, brushed, sourceData } = ps
         const dataDrillPanelPosition = void 0
         const sourceDataOfBrushed = sourceData && sourceData.length ? sourceData : void 0
         const whichDataDrillBrushed = brushed && brushed.length ? brushed : void 0
@@ -405,7 +404,7 @@ export class DashboardItem extends React.PureComponent<IDashboardItemProps, IDas
   }
 
   private drillDataHistory = (history, item, itemId, widgetId) => {
-    const {onSelectDrillHistory, drillHistory, widget, onGetChartData} = this.props
+    const { onSelectDrillHistory, drillHistory, widget, onGetChartData } = this.props
     const { widgetProps, cacheWidgetProps } = this.state
     const wid = !history && item > -1 ? widgetId : this.state.cacheWidgetId
     if (onSelectDrillHistory) {
@@ -426,7 +425,7 @@ export class DashboardItem extends React.PureComponent<IDashboardItemProps, IDas
             widgetProps: {
               ...widgetProps,
               ...{
-                cols: historyGroups && historyGroups.length ? historyGroups.map((history) => ({name: history})) : cacheWidgetProps.cols
+                cols: historyGroups && historyGroups.length ? historyGroups.map((history) => ({ name: history })) : cacheWidgetProps.cols
               }
             }
           })
@@ -435,7 +434,7 @@ export class DashboardItem extends React.PureComponent<IDashboardItemProps, IDas
             widgetProps: {
               ...widgetProps,
               ...{
-                rows: historyGroups && historyGroups.length ? historyGroups.map((history) => ({name: history})) : cacheWidgetProps.rows
+                rows: historyGroups && historyGroups.length ? historyGroups.map((history) => ({ name: history })) : cacheWidgetProps.rows
               }
             }
           })
@@ -462,7 +461,7 @@ export class DashboardItem extends React.PureComponent<IDashboardItemProps, IDas
         })
       }
       if (item === -1 && !history) {
-        this.setState({widgetProps: {...this.state.cacheWidgetProps}})
+        this.setState({ widgetProps: { ...this.state.cacheWidgetProps } })
       }
       onSelectDrillHistory(history, item, itemId, wid)
     }
@@ -530,14 +529,14 @@ export class DashboardItem extends React.PureComponent<IDashboardItemProps, IDas
       drillStatus: currentDrillStatus
     })
     onDrillPathData({
-       sourceDataFilter: sourceDataOfBrushed,
-       widget,
-       itemId,
-       widgetProps,
-       out,
-       enter,
-       value,
-       currentDrillStatus
+      sourceDataFilter: sourceDataOfBrushed,
+      widget,
+      itemId,
+      widgetProps,
+      out,
+      enter,
+      value,
+      currentDrillStatus
     })
   }
   private drillData = (name, dimensions) => {
@@ -560,7 +559,7 @@ export class DashboardItem extends React.PureComponent<IDashboardItemProps, IDas
         sourceDataFilter: this.state.sourceDataOfBrushed
       })
     }
-    this.setState({whichDataDrillBrushed: false})
+    this.setState({ whichDataDrillBrushed: false })
     const isDrillUp = widgetProps.cols.some((col) => col.name === name) || widgetProps.rows.some((row) => row.name === name)
     if (isDrillUp) {
       const newCols = widgetProps.cols.filter((col) => col.name !== name)
@@ -583,8 +582,8 @@ export class DashboardItem extends React.PureComponent<IDashboardItemProps, IDas
                 ...widgetProps,
                 ...{
                   rows: name && name.length
-                  ? widgetProps.rows.concat({name})
-                  : cacheWidgetProps.rows
+                    ? widgetProps.rows.concat({ name })
+                    : cacheWidgetProps.rows
                 }
               }
             })
@@ -594,8 +593,8 @@ export class DashboardItem extends React.PureComponent<IDashboardItemProps, IDas
               widgetProps: {
                 ...widgetProps,
                 cols: name && name.length
-                ? widgetProps.cols.concat({name})
-                : cacheWidgetProps.cols
+                  ? widgetProps.cols.concat({ name })
+                  : cacheWidgetProps.cols
               }
             })
             break
@@ -606,14 +605,14 @@ export class DashboardItem extends React.PureComponent<IDashboardItemProps, IDas
         switch (widgetProps.dimetionAxis) {
           case 'col':
             this.setState({
-                widgetProps: {
-                  ...widgetProps,
-                  ...{
-                    cols: name && name.length
-                    ? mode === 'pivot' ? widgetProps.cols.concat({name}) : [{name}]
+              widgetProps: {
+                ...widgetProps,
+                ...{
+                  cols: name && name.length
+                    ? mode === 'pivot' ? widgetProps.cols.concat({ name }) : [{ name }]
                     : cacheWidgetProps.cols
-                  }
                 }
+              }
             })
             break
           case 'row':
@@ -622,8 +621,8 @@ export class DashboardItem extends React.PureComponent<IDashboardItemProps, IDas
                 ...widgetProps,
                 ...{
                   rows: name && name.length
-                  ? mode === 'pivot' ? widgetProps.rows.concat({name}) : [{name}]
-                  : cacheWidgetProps.rows
+                    ? mode === 'pivot' ? widgetProps.rows.concat({ name }) : [{ name }]
+                    : cacheWidgetProps.rows
                 }
               }
             })
@@ -639,7 +638,7 @@ export class DashboardItem extends React.PureComponent<IDashboardItemProps, IDas
         const newWidgetPropCols = cols.reduce((array, col) => {
           array.push(col)
           if (col.name === drillKey) {
-            array.push({name})
+            array.push({ name })
           }
           return array
         }, [])
@@ -648,9 +647,9 @@ export class DashboardItem extends React.PureComponent<IDashboardItemProps, IDas
             ...widgetProps,
             ...{
               cols: name && name.length
-            //  ? widgetProps.cols.concat({name})
-              ? newWidgetPropCols
-              : cacheWidgetProps.cols
+                //  ? widgetProps.cols.concat({name})
+                ? newWidgetPropCols
+                : cacheWidgetProps.cols
             }
           }
         })
@@ -660,8 +659,8 @@ export class DashboardItem extends React.PureComponent<IDashboardItemProps, IDas
             ...widgetProps,
             ...{
               cols: name && name.length
-              ? mode === 'pivot' ? widgetProps.cols.concat({name}) : [{name}]
-              : cacheWidgetProps.cols
+                ? mode === 'pivot' ? widgetProps.cols.concat({ name }) : [{ name }]
+                : cacheWidgetProps.cols
             }
           }
         })
@@ -670,7 +669,7 @@ export class DashboardItem extends React.PureComponent<IDashboardItemProps, IDas
   }
 
   private selectChartsItems = (selectedItems) => {
-    const {onSelectChartsItems, itemId} = this.props
+    const { onSelectChartsItems, itemId } = this.props
     if (onSelectChartsItems) {
       onSelectChartsItems(itemId, 'select', selectedItems)
     }
@@ -684,8 +683,23 @@ export class DashboardItem extends React.PureComponent<IDashboardItemProps, IDas
     const { itemId, onGetControlOptions } = this.props
     onGetControlOptions(controlKey, userOptions, paramsOrOptions, itemId)
   }
+  componentDidMount() {
+    const {
+      widget,
+    } = this.props
+    //console.log('componentDidMount')
+    //console.log(this.props)
+    // if (widget.isFull) {
+    //   //console.log('into')
+    //   this.onFullScreen()
+    // }
+  }
 
-  public render () {
+  // shouldComponentUpdate() {
+  //   console.log('shouldComponentUpdate')
+  // }
+  public render() {
+    
     const {
       itemId,
       widget,
@@ -870,9 +884,9 @@ export class DashboardItem extends React.PureComponent<IDashboardItemProps, IDas
     }
 
     const drillButton = (
-    <Tooltip title="钻取">
-      <span style={{marginLeft: '8px', cursor: 'pointer', fontSize: '18px'}}  onClick={this.doDrill} className={`iconfont ${isDrilling ? 'icon-cube1' : 'icon-cube2'}`}/>
-    </Tooltip>)
+      <Tooltip title="钻取">
+        <span style={{ marginLeft: '8px', cursor: 'pointer', fontSize: '18px' }} onClick={this.doDrill} className={`iconfont ${isDrilling ? 'icon-cube1' : 'icon-cube2'}`} />
+      </Tooltip>)
 
     const gridItemClass = classnames({
       [styles.gridItem]: true,
@@ -880,9 +894,9 @@ export class DashboardItem extends React.PureComponent<IDashboardItemProps, IDas
     })
     const isDrillableChart = DrillableChart.some((drillable) => drillable === widgetProps.selectedChart)
     const drillInteractIcon = this.props.isTrigger === false ? isDrillableChart
-                                                                ? (<Tooltip title="可钻取"><i className="iconfont icon-xiazuan"/></Tooltip>)
-                                                                : void 0
-                                                              : (<Tooltip title="可联动"><i className="iconfont icon-liandong1"/></Tooltip>)
+      ? (<Tooltip title="可钻取"><i className="iconfont icon-xiazuan" /></Tooltip>)
+      : void 0
+      : (<Tooltip title="可联动"><i className="iconfont icon-liandong1" /></Tooltip>)
     const triggerClass = classnames({
       [styles.trigger]: true,
       [utilStyles.hide]: this.props.isTrigger === false
@@ -922,35 +936,35 @@ export class DashboardItem extends React.PureComponent<IDashboardItemProps, IDas
       mode = cf.mode
     }
     const dataDrillPanel =
-    (
-      <div className={dataDrillPanelClass}>
-        <DataDrill
-          widgetConfig={cf}
-          categoriesCol={categoriesCol}
-          onDataDrillPath={this.drillpathData}
-          onDataDrill={this.drillData}
-          drillHistory={drillHistory}
-          drillpathSetting={drillpathSetting}
-          widgetMode={mode}
-          currentData={data}
-        />
-      </div>
-    )
+      (
+        <div className={dataDrillPanelClass}>
+          <DataDrill
+            widgetConfig={cf}
+            categoriesCol={categoriesCol}
+            onDataDrillPath={this.drillpathData}
+            onDataDrill={this.drillData}
+            drillHistory={drillHistory}
+            drillpathSetting={drillpathSetting}
+            widgetMode={mode}
+            currentData={data}
+          />
+        </div>
+      )
     const dataDrillHistoryClass = classnames({
       [styles.dataDrillHistory]: true,
       [utilStyles.hide]: !(drillHistory && drillHistory.length > 0)
     })
     const dataDrillHistory =
-    (
-      <div className={dataDrillHistoryClass}>
-        <DataDrillHistory
-          itemId={itemId}
-          widgetId={widget.id}
-          drillHistory={drillHistory}
-          onSelectDrillHistory={this.drillDataHistory}
-        />
-      </div>
-    )
+      (
+        <div className={dataDrillHistoryClass}>
+          <DataDrillHistory
+            itemId={itemId}
+            widgetId={widget.id}
+            drillHistory={drillHistory}
+            onSelectDrillHistory={this.drillDataHistory}
+          />
+        </div>
+      )
 
     const { selectedChart, cols, rows, metrics } = widgetProps
     const hasDataConfig = !!(cols.length || rows.length || metrics.length)
@@ -962,14 +976,18 @@ export class DashboardItem extends React.PureComponent<IDashboardItemProps, IDas
         hasDataConfig={hasDataConfig}
       />
     )
-
-    //console.log(widget.name)
+    //console.log(widget)
+    //widget.test='test'
+    //widget.dashBoardItem=this
+    //console.log(widget)
+    //console.log(this)
+    //console.log(widget)
     return (
       <div className={gridItemClass} ref={(f) => this.container = f}>
         <div className={styles.header}>
           <div className={styles.title}>
             {controlToggle}
-            <h4 dangerouslySetInnerHTML={{__html: widget.name}}></h4>
+            <h4 dangerouslySetInnerHTML={{ __html: widget.name }}></h4>
             {loadingIcon}
             {descToggle}
             {errorToggle}
@@ -996,13 +1014,13 @@ export class DashboardItem extends React.PureComponent<IDashboardItemProps, IDas
         <div className={styles.trigger}>
           {drillInteractIcon}
         </div>
-        <div
+        {/* <div
           className={styles.offInteract}
           onClick={this.turnOffInteract}
         >
           <i className="iconfont icon-unlink" />
           <h3>点击取消联动</h3>
-        </div>
+        </div> */}
         <Animate
           showProp="show"
           transitionName={controlPanelTransitionName}
@@ -1050,7 +1068,7 @@ export class DashboardItem extends React.PureComponent<IDashboardItemProps, IDas
   }
 }
 
-function Span (props: React.DetailedHTMLProps<React.HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>) {
+function Span(props: React.DetailedHTMLProps<React.HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>) {
   return (
     <span {...props} >{props.children}</span>
   )

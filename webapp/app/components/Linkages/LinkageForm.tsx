@@ -71,7 +71,7 @@ export class LinkageForm extends React.PureComponent<ILinkageFormProps, {}> {
     const relationOptions = relations.map((r) => (
       <Option key={r} value={r}>{r}</Option>
     ))
-
+    relationOptions.push((<Option key='full' value='full'>full</Option>))
     const commonFormItemStyle = {
       labelCol: { span: 8 },
       wrapperCol: { span: 12 }

@@ -143,6 +143,7 @@ export interface IWidgetProps {
   editing?: boolean
   queryVariables?: IQueryVariableMap
   onCheckTableInteract?: () => boolean
+  onFullScreen?: () => void
   onDoInteract?: (triggerData: object) => void
   getDataDrillDetail?: (position: string) => void
   onPaginationChange?: (pageNo: number, pageSize: number, order?: { column: string, direction: string }) => void
@@ -234,7 +235,7 @@ export class Widget extends React.Component<
           <Pivot {...widgetProps} />
         )
     }
-
+    //console.log('widget render')
     return (
       <div className={styles.wrapper} ref={this.container}>
         {widgetContent}

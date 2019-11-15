@@ -246,6 +246,7 @@ export class Table extends React.PureComponent<IChartProps, ITableStates> {
     const { getDataDrillDetail, onCheckTableInteract, onDoInteract } = this.props
     let selectedRow = [...this.state.selectedRow]
     let filterObj = void 0
+    //console.log(12)
     if (event.target && event.target.innerHTML) {
       for (const attr in record) {
         if (record[attr].toString() === event.target.innerText) {
@@ -291,6 +292,7 @@ export class Table extends React.PureComponent<IChartProps, ITableStates> {
       const isInteractiveChart = onCheckTableInteract && onCheckTableInteract()
       if (isInteractiveChart && onDoInteract) {
         const triggerData = sourceData
+        //联动功能
         onDoInteract(triggerData)
       }
       setTimeout(() => {
