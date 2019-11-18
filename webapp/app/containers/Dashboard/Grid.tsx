@@ -983,14 +983,18 @@ export class Grid extends React.Component<IGridProps, IGridStates> {
     })
     return isInteractiveItem
   }
-
+  lastTriggerData=undefined
   private doInteract = (itemId: number, triggerData) => {
     const {
       currentItems,
       currentLinkages,
       onMonitoredLinkageDataAction
     } = this.props
-
+    //第二次点击，直接取消联动，结束方法
+    if(this.lastTriggerData== JSON.stringify(triggerData)){
+      this.turnOffInteract(itemId);
+      return; 
+    }
     const mappingLinkage = getMappingLinkage(itemId, currentLinkages)
 
     this.interactingLinkagers = processLinkage(itemId, triggerData, mappingLinkage, this.interactingLinkagers)
@@ -1022,6 +1026,7 @@ export class Grid extends React.Component<IGridProps, IGridStates> {
     if (onMonitoredLinkageDataAction) {
       onMonitoredLinkageDataAction()
     }
+    this.lastTriggerData= JSON.stringify(triggerData)
   }
 
   private clearAllInteracts = () => {

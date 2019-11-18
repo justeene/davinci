@@ -565,20 +565,24 @@ export class Share extends React.Component<IDashboardProps, IDashboardStates> {
 
     return isInteractiveItem
   }
-
+  lastTriggerData=undefined
   private doInteract = (itemId: number, triggerData) => {
     const {
       currentItems,
       linkages
     } = this.props
-
+    //第二次点击，直接取消联动，结束方法
+    if(this.lastTriggerData== JSON.stringify(triggerData)){
+      this.turnOffInteract(itemId);
+      return; 
+    }
     const mappingLinkage = getMappingLinkage(itemId, linkages)
     this.interactingLinkagers = processLinkage(itemId, triggerData, mappingLinkage, this.interactingLinkagers)
 
     Object.keys(mappingLinkage).forEach((linkagerItemId) => {
       const item = currentItems.find((ci) => ci.id === +linkagerItemId)
       const { filters, variables } = this.interactingLinkagers[linkagerItemId]
-      if (filters[itemId][0].operator == 'full') {
+      if (filters[itemId]!=undefined &&filters[itemId][0].operator == 'full') {
         //直接全屏，不筛选数据
         //this.dashboardItems.get(+linkagerItemId).onFullScreen();
         this[`dashboardItem${linkagerItemId}`].onFullScreen()
@@ -595,6 +599,7 @@ export class Share extends React.Component<IDashboardProps, IDashboardStates> {
         [itemId]: true
       }
     })
+    this.lastTriggerData= JSON.stringify(triggerData)
   }
 
   private turnOffInteract = (itemId) => {

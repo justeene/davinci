@@ -124,7 +124,6 @@ export class Chart extends React.PureComponent<IChartProps> {
     const isInteractiveChart = onCheckTableInteract && onCheckTableInteract()
     if (isInteractiveChart && onDoInteract) {
       const triggerData = sourceData
-      
       //联动功能
       onDoInteract(triggerData)
     }

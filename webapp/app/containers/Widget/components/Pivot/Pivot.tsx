@@ -560,6 +560,7 @@ export class Pivot extends React.PureComponent<IPivotProps, IPivotStates> {
       const sourceData = Object.values(cellSelected)
       if (isInteractiveChart && onDoInteract) {
         const triggerData = sourceData
+        //联动功能
         onDoInteract(triggerData)
       }
       setTimeout(() => {
