@@ -54,21 +54,20 @@ export class FilterControl extends PureComponent<IFilterControlProps, {}> {
         component = renderNumberRange(this.numberRangeChange, this.change)
         break
       case FilterTypes.Select:
-        var customSelectVals = getQueryVariable("customSelectVals");
-        if (customSelectVals != false) {
-          var customOptions = new Array();
-          var selectVals = customSelectVals.split(",");
-          selectVals.forEach((val, idx, array) => {
-            var option = {
-              text: val,
-              value: val
-            }
-            customOptions.push(option);
-          })
-          component = renderSelect(filter, this.change, customOptions)
-        } else {
+        //var customSelectVals = getQueryVariable("customSelectVals");
+        // if (customSelectVals != false) {
+        //   var customOptions = new Array();
+        //   var selectVals = customSelectVals.split(",");
+        //   selectVals.forEach((val, idx, array) => {
+        //     var option = {
+        //       text: val,
+        //       value: val
+        //     }
+        //     customOptions.push(option);
+        //   })
+        //   component = renderSelect(filter, this.change, customOptions)
+        // } else {
           component = renderSelect(filter, this.change, options)
-        }
         break
       // case FilterTypes.TreeSelect:
       //   component = renderTreeSelect(filter, this.change, options)
@@ -85,15 +84,28 @@ export class FilterControl extends PureComponent<IFilterControlProps, {}> {
 
   private wrapFormItem = (control: IControlBase, component: Component): ReactNode => {
     const { getFieldDecorator } = this.props.form
+    var customSelectVal = getQueryVariable("customSelectVal");
+    var initVal=deserializeDefaultValue(control)
+    if (customSelectVal != false) {
+      initVal=customSelectVal
+    } 
     return (
       <FormItem label={control.name} className={styles.controlItem}>
         {getFieldDecorator(`${control.key}`, {
-          initialValue: deserializeDefaultValue(control)
+          initialValue: initVal
         })(component)}
       </FormItem>
     )
   }
-
+  
+  componentDidMount(){
+    var customSelectVal = getQueryVariable("customSelectVal");
+    if (customSelectVal != false) {
+      setTimeout(() => {
+        this.change(customSelectVal)
+      }, 100)
+    }
+  }
   private change = (val) => {
     const { control, onChange } = this.props
     onChange(control, val)

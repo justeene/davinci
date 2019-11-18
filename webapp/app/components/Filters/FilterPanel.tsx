@@ -378,15 +378,29 @@ export class FilterPanel extends Component<IFilterPanelProps & FormComponentProp
     })
     return components
   }
-
+  getQueryVariable(variable) {
+    var url = decodeURI(location.href);
+    var query = url.substring(url.indexOf("?") + 1);
+    var vars = query.split("&");
+    for (var i = 0; i < vars.length; i++) {
+      var pair = vars[i].split("=");
+      if (pair[0] == variable) { return pair[1]; }
+    }
+    return false;
+  }
   public render () {
     const { renderTree, queryMode } = this.state
     const panelClass = classnames({
       [styles.controlPanel]: true,
       [styles.empty]: !renderTree.length
     })
+    var hideSearch=this.getQueryVariable('hideSearch')
+    var customStyle=new Object;
+    if(hideSearch){
+      customStyle['display']='none'
+    }
     return (
-      <Form className={panelClass}>
+      <Form className={panelClass} style={customStyle}>
         <div className={styles.controls}>
           <Row gutter={8}>
             {this.renderFilterControls(renderTree)}
