@@ -1001,7 +1001,7 @@ export class Grid extends React.Component<IGridProps, IGridStates> {
       //带+前缀会把string转成number
       // console.log(linkagerItemId)
       // console.log(itemId)
-      if (filters[itemId][0].operator == 'full') {
+      if (filters[itemId]!=undefined &&filters[itemId][0].operator == 'full') {
         //直接全屏，不筛选数据
         //this.dashboardItems.get(+linkagerItemId).onFullScreen();
         this[`dashboardItem${linkagerItemId}`].onFullScreen()
