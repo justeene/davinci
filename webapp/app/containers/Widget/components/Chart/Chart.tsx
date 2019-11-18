@@ -75,6 +75,8 @@ export class Chart extends React.PureComponent<IChartProps> {
   public collectSelectedItems = (params) => {
     const { data, onSelectChartsItems, selectedChart, onDoInteract, onCheckTableInteract } = this.props
     let selectedItems = []
+
+    
     if (this.props.selectedItems && this.props.selectedItems.length) {
       selectedItems = [...this.props.selectedItems]
     }
@@ -84,6 +86,10 @@ export class Chart extends React.PureComponent<IChartProps> {
     let dataIndex = params.dataIndex
     if (selectedChart === 4) {
       dataIndex = params.seriesIndex
+    }
+    //将之前的查询清空
+    if (!(selectedItems.length == 1&&selectedItems[0]==dataIndex)){
+      selectedItems=[]
     }
     if (selectedItems.length === 0) {
       selectedItems.push(dataIndex)
@@ -128,11 +134,9 @@ export class Chart extends React.PureComponent<IChartProps> {
       }
     }, 500)
     if (onSelectChartsItems) {
-      //选中样式
       onSelectChartsItems(selectedItems)
     }
   }
-
   public render () {
     return (
       <div
