@@ -571,11 +571,12 @@ export class Share extends React.Component<IDashboardProps, IDashboardStates> {
       currentItems,
       linkages
     } = this.props
-    //第二次点击，直接取消联动，结束方法
-    if(this.lastTriggerData== JSON.stringify(triggerData)){
-      this.turnOffInteract(itemId);
-      return; 
-    }
+    // //第二次点击，直接取消联动，结束方法
+    // if(this.lastTriggerData== JSON.stringify(triggerData)){
+    //   this.turnOffInteract(itemId)
+    //   this.lastTriggerData=undefined
+    //   return; 
+    // }
     const mappingLinkage = getMappingLinkage(itemId, linkages)
     this.interactingLinkagers = processLinkage(itemId, triggerData, mappingLinkage, this.interactingLinkagers)
 

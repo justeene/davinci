@@ -988,13 +988,22 @@ export class Grid extends React.Component<IGridProps, IGridStates> {
     const {
       currentItems,
       currentLinkages,
-      onMonitoredLinkageDataAction
+      onMonitoredLinkageDataAction,
+      widgets
     } = this.props
-    //第二次点击，直接取消联动，结束方法
-    if(this.lastTriggerData== JSON.stringify(triggerData)){
-      this.turnOffInteract(itemId);
-      return; 
-    }
+    //debugger
+    var itemSource = currentItems.find((ci) => ci.id === +itemId)
+    var widgetSouce=widgets.find((ci) => ci.id === +itemSource.widgetId)
+    var selectedChart=JSON.parse(widgetSouce.config).selectedChart
+    //debugger
+    // if(selectedChart!=1){
+    //   //第二次点击，直接取消联动，结束方法
+    //   if(this.lastTriggerData== JSON.stringify(triggerData)){
+    //     this.turnOffInteract(itemId);
+    //     this.lastTriggerData=undefined
+    //     return; 
+    //   }
+    // }
     const mappingLinkage = getMappingLinkage(itemId, currentLinkages)
 
     this.interactingLinkagers = processLinkage(itemId, triggerData, mappingLinkage, this.interactingLinkagers)

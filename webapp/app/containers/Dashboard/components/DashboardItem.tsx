@@ -989,7 +989,7 @@ export class DashboardItem extends React.PureComponent<IDashboardItemProps, IDas
       dashBoardItemTitle = (<span></span>)
     }
     return (
-      <div className={gridItemClass} ref={(f) => this.container = f}>
+      <div className={gridItemClass} style={{boxShadow:'none'}} ref={(f) => this.container = f}>
         <div className={styles.header} style={{ height: '15px' }}>
           <div className={styles.title}>
             {controlToggle}

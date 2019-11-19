@@ -53,6 +53,7 @@ class FullScreenPanel extends React.PureComponent<IFullScreenPanelProps, IFullSc
     }
     //hide时应该清除当前全屏对象
     //this.props.currentDataInFullScreen={}
+    //TODO 去掉联动
   }
   private toggleControlPanel = () => {
     this.setState({
@@ -187,7 +188,7 @@ class FullScreenPanel extends React.PureComponent<IFullScreenPanelProps, IFullSc
                 </li> : ''}
               <li />
               <li onClick={this.hide}>
-                <Icon type="shrink" /><span>退出全屏</span>
+                <Icon type="shrink" /><span>关闭</span>
               </li>
             </ul>
           </nav>
