@@ -1627,7 +1627,7 @@ export class Grid extends React.Component<IGridProps, IGridStates> {
         ).some((tr) => tr === String(id)) : false
 
         itemblocks.push((
-          <div key={id} className={styles.authSizeTag}>
+          <div key={id} className={styles.authSizeTag} >
             <DashboardItem
               itemId={id}
               widgets={widgets}
@@ -1695,7 +1695,7 @@ export class Grid extends React.Component<IGridProps, IGridStates> {
           className="layout"
           style={{ marginTop: '-14px' }}
           rowHeight={GRID_ROW_HEIGHT}
-          margin={[GRID_ITEM_MARGIN, GRID_ITEM_MARGIN]}
+          margin={[GRID_ITEM_MARGIN/2, GRID_ITEM_MARGIN/2]}
           breakpoints={GRID_BREAKPOINTS}
           cols={GRID_COLS}
           layouts={layouts}

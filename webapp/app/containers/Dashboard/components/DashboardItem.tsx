@@ -1043,7 +1043,7 @@ export class DashboardItem extends React.PureComponent<IDashboardItemProps, IDas
             />
           </DashboardItemControlPanel>
         </Animate>
-        <Dropdown overlay={dataDrillPanel} placement="topCenter" trigger={['contextMenu']}>
+        <Dropdown overlay={dataDrillPanel} placement="topCenter" trigger={['contextMenu']} >
           <div className={styles.block}>
             <Widget
               {...widgetProps}
