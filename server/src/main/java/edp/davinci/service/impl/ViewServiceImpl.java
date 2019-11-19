@@ -499,6 +499,12 @@ public class ViewServiceImpl implements ViewService {
             } else {
                 st.add("aggregators", executeParam.getAggregators(source.getJdbcUrl(), source.getDbVersion()));
             }
+            //给orders加双反引号
+            for(Order order:(List<Order>)Optional.ofNullable(executeParam.getOrders(source.getJdbcUrl(), source.getDbVersion())).orElse(Collections.EMPTY_LIST)){
+                if(!order.getColumn().contains("`")) {
+                    order.setColumn("`" + order.getColumn() + "`");
+                }
+            }
             st.add("orders", executeParam.getOrders(source.getJdbcUrl(), source.getDbVersion()));
             st.add("filters", convertFilters(executeParam.getFilters(), source));
             st.add("keywordPrefix", sqlUtils.getKeywordPrefix(source.getJdbcUrl(), source.getDbVersion()));
