@@ -48,7 +48,7 @@ source:
   connection-error-retry-attempts: 0
   validationQueryTimeout: 30000
 
-  enable-query-log: false
+  enable-query-log: true
   result-limit: 1000000
 
 

@@ -300,13 +300,21 @@ export default function (chartProps: IChartProps, drillOptions) {
   })
   const seriesNames = series.map((s) => s.name)
   if (turnOnStack && stackConfig.sum.show) {
-    const {
-      fontFamily,
-      fontStyle,
-      fontColor,
-      fontSize,
-      fontWeight
-    } = stackConfig.sum.font
+    if(stackConfig.sum.font==undefined){
+      var fontFamily='Serif'
+      var fontStyle='normal'
+      var fontColor='black'
+      var fontSize='12px'
+      var fontWeight='normal'
+    }else{
+      var {
+        fontFamily,
+        fontStyle,
+        fontColor,
+        fontSize,
+        fontWeight
+      } = stackConfig.sum.font
+    }
     const sumSeries = series.reduce((acc, serie, serieIdx) => {
       const stackName = serie.stack
       if (acc[stackName]) {
