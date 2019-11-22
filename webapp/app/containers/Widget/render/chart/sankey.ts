@@ -102,7 +102,8 @@ export default function (chartProps: IChartProps) {
     trigger: 'item',
     triggerOn: 'mousemove',
     formatter (params: EChartOption.Tooltip.Format) {
-      const { name, value, color } = params
+      var { name, value, color } = params
+      name=name.replace('>','-->')
       const tooltipLabels = []
       if (color) {
         tooltipLabels.push(`<span class="widget-tooltip-circle" style="background: ${color}"></span>`)
