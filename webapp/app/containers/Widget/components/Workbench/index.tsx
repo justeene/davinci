@@ -169,6 +169,7 @@ export class Workbench extends React.Component<IWorkbenchProps, IWorkbenchStates
       if (rest.selectedChart === ChartTypes.Bar) {
         rest.chartStyles = barChartStylesMigrationRecorder(rest.chartStyles)
       }
+      
       this.setState({
         id: currentWidget.id,
         name: currentWidget.name,

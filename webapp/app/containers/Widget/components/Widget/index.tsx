@@ -30,6 +30,7 @@ import { IModel } from '../Workbench/index'
 import { IQueryVariableMap } from 'containers/Dashboard/Grid'
 import { getStyleConfig } from '../util'
 import ChartTypes from '../../config/chart/ChartTypes'
+import { IDataZoomConfig } from '../Workbench/ConfigSections/DataZoomSection'
 const styles = require('../Pivot/Pivot.less')
 
 export type DimetionType = 'row' | 'col'
@@ -92,6 +93,7 @@ export interface IChartStyles {
   bar?: IBarConfig
   radar?: IRadarConfig
   doubleYAxis?: IDoubleYAxisConfig
+  dataZoomConfig?:IDataZoomConfig
 }
 
 export interface IChartRule {

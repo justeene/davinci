@@ -66,7 +66,6 @@ export class LabelSection extends React.PureComponent<ILabelSectionProps, {}> {
 
   public render () {
     const { title, config, name } = this.props
-
     const {
       showLabel,
       labelPosition,

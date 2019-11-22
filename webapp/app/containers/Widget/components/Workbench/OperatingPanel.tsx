@@ -30,10 +30,12 @@ import DoubleYAxisSection, { IDoubleYAxisConfig } from './ConfigSections/DoubleY
 import AreaSelectSection, { IAreaSelectConfig } from './ConfigSections/AreaSelectSection'
 import ScorecardSection, { IScorecardConfig } from './ConfigSections/ScorecardSection'
 import IframeSection, { IframeConfig } from './ConfigSections/IframeSection'
+import DataZoomSection, {IDataZoomConfig} from './ConfigSections/DataZoomSection'
 import TableSection from './ConfigSections/TableSection'
 import { ITableConfig } from '../Config/Table'
 import BarSection from './ConfigSections/BarSection'
 import RadarSection from './ConfigSections/RadarSection'
+
 import { encodeMetricName, decodeMetricName, getPivot, getTable, getPivotModeSelectedCharts, checkChartEnable } from '../util'
 import { PIVOT_DEFAULT_SCATTER_SIZE_TIMES } from 'app/globalConstants'
 import PivotTypes from '../../config/pivot/PivotTypes'
@@ -225,6 +227,7 @@ export class OperatingPanel extends React.Component<IOperatingPanelProps, IOpera
 
     if ((originalWidgetProps && selectedView) &&
       (originalWidgetProps !== this.props.originalWidgetProps || selectedView !== this.props.selectedView)) {
+      //这里获取chart的样式配置信息
       const { cols, rows, metrics, secondaryMetrics, filters, color, label, size, xAxis, tip, chartStyles, mode, selectedChart } = originalWidgetProps
       const { dataParams } = this.state
       const model = selectedView.model
@@ -310,6 +313,7 @@ export class OperatingPanel extends React.Component<IOperatingPanelProps, IOpera
         ...xAxis && {xAxis},
         ...tip && {tip}
       }
+      
       this.setState({
         mode: mode || 'pivot', // FIXME 兼容 0.3.0-beta.1 之前版本
         currentWidgetlibs,
@@ -326,7 +330,7 @@ export class OperatingPanel extends React.Component<IOperatingPanelProps, IOpera
   public componentWillUnmount () {
     notification.destroy()
   }
-
+  //组件被加载时也会获取样式配置信息
   private getChartDataConfig = (selectedCharts: IChartInfo[]) => {
     const { mode } = this.state
     const { dataParams, styleParams } = this.state
@@ -363,6 +367,7 @@ export class OperatingPanel extends React.Component<IOperatingPanelProps, IOpera
           }
         }
       })
+      
       Object.entries(chartInfo.style).forEach(([key, prop]: [string, object]) => {
         if (key !== 'spec') {
           styleConfig[key] = {
@@ -387,6 +392,7 @@ export class OperatingPanel extends React.Component<IOperatingPanelProps, IOpera
         }
       }, {})
     }
+    
     return {
       dataParams: dataConfig,
       styleParams: styleConfig
@@ -808,7 +814,6 @@ export class OperatingPanel extends React.Component<IOperatingPanelProps, IOpera
       queryMode: WorkbenchQueryMode.Immediately
     })
   }
-
   private setWidgetProps = (
     dataParams: IDataParams,
     styleParams: IChartStyles,
@@ -1036,6 +1041,7 @@ export class OperatingPanel extends React.Component<IOperatingPanelProps, IOpera
           mode,
           model: selectedView.model
         })
+        
         this.setState({
           chartModeSelectedChart: mode === 'pivot' ? chartModeSelectedChart : selectedCharts[0],
           pagination: updatedPagination,
@@ -1106,6 +1112,7 @@ export class OperatingPanel extends React.Component<IOperatingPanelProps, IOpera
         mode,
         model: selectedView ? selectedView.model : {}
       })
+      
       this.setState({
         chartModeSelectedChart: mode === 'pivot' ? chartModeSelectedChart : selectedCharts[0],
         pagination: updatedPagination,
@@ -1126,6 +1133,7 @@ export class OperatingPanel extends React.Component<IOperatingPanelProps, IOpera
   private chartSelect = (chart: IChartInfo) => {
     const { mode, dataParams } = this.state
     const { cols, rows, metrics } = dataParams
+    
     if (mode === 'pivot') {
       if (!(metrics.items.length === 1 && metrics.items[0].chart.id === chart.id)) {
         metrics.items.forEach((i) => {
@@ -1531,13 +1539,12 @@ export class OperatingPanel extends React.Component<IOperatingPanelProps, IOpera
       computedConfigModalVisible,
       selectedComputed
     } = this.state
-
     const { metrics } = dataParams
     const [dimetionsCount, metricsCount] = this.getDimetionsAndMetricsCount()
     const {
       spec, xAxis, yAxis, axis, splitLine, pivot: pivotConfig, label, legend,
-      visualMap, toolbox, areaSelect, scorecard, iframe, table, bar, radar, doubleYAxis } = styleParams
-
+      visualMap, toolbox, areaSelect, scorecard, iframe, table, bar, radar, doubleYAxis,dataZoomConfig } = styleParams
+    
     let categoryDragItems = this.state.categoryDragItems
     if (mode === 'pivot'
       && valueDragItems.length
@@ -1664,6 +1671,7 @@ export class OperatingPanel extends React.Component<IOperatingPanelProps, IOpera
         )
         break
       case 'style':
+        
         tabPane = (
           <div className={styles.paramsPane}>
             {spec && <SpecSection
@@ -1759,6 +1767,12 @@ export class OperatingPanel extends React.Component<IOperatingPanelProps, IOpera
               config={pivotConfig as IPivotConfig}
               onChange={this.styleChange('pivot')}
             />}
+            {bar && <DataZoomSection
+              title="滑块配置"
+              config={dataZoomConfig as IDataZoomConfig}
+              onChange={this.styleChange('bar')}
+            />
+            }
           </div>
         )
         break

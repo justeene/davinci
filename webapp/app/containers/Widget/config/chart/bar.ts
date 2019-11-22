@@ -64,6 +64,9 @@ const bar: IChartInfo = {
       labelFontSize: '12',
       labelColor: PIVOT_DEFAULT_FONT_COLOR
     },
+    dataZoomConfig: {
+      show: false
+    },
     xAxis: {
       showLine: true,
       lineStyle: 'solid',
