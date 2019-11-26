@@ -591,10 +591,9 @@ export class Pivot extends React.PureComponent<IPivotProps, IPivotStates> {
     const rowNames = rows.map((r) => r.name)
     const colNames = cols.map((c) => c.name)
     const hasMetricNameDimension = [rows, cols].some((items) => items.findIndex((item) => item.name === '指标名称') >= 0)
-    //console.log(colNames)
     return (
       <div className={styles.block}>
-        <div className={styles.leftSide}>
+        <div className={styles.leftSide} >
           <Corner
             cols={colNames}
             rows={rowNames}
@@ -629,7 +628,7 @@ export class Pivot extends React.PureComponent<IPivotProps, IPivotStates> {
           </div>
           <RowFooter />
         </div>
-        <div className={styles.rightSide}>
+        <div className={styles.rightSide} >
           <ColumnTitle
             cols={colNames}
             colKeys={this.colKeys}

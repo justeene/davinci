@@ -641,8 +641,9 @@ export class TableBody extends React.Component<ITableBodyProps, ITableBodyState>
           )
         }
       }
+      //style={{width: tableWidth}}
       tableBody = (
-        <table className={styles.pivot} style={{width: tableWidth}}>
+        <table className={styles.pivot} style={{width: '100%'}}>
           <tbody>
             {cells}
           </tbody>
@@ -655,6 +656,7 @@ export class TableBody extends React.Component<ITableBodyProps, ITableBodyState>
       [styles.bodyCollapsed]: tableBodyCollapsed,
       [styles.raw]: !dimetionAxis
     })
+    
     return (
       <div className={containerClass}>
         {tableBody}

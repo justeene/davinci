@@ -124,10 +124,10 @@ export class ColumnHeader extends React.Component<IColumnHeaderProps, {}> {
       [styles.columnHeader]: true,
       [styles.raw]: !dimetionAxis
     })
-
+    //width: tableWidth
     return (
       <div className={containerClass}>
-        <table className={styles.pivot} style={{width: tableWidth}}>
+        <table className={styles.pivot} style={{width: "100%"}}>
           <thead>
             {headers}
           </thead>
