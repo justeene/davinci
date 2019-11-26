@@ -97,20 +97,49 @@ export default function (chartProps: IChartProps) {
       }
     })
   })
-
+  let sourceMap = new Map();
+  let targetMap = new Map();
+  links.forEach(link =>{
+    if(!sourceMap.has(link.source)){
+      sourceMap.set(link.source,[])
+    }
+    sourceMap.get(link.source).push(link);
+    if(!targetMap.has(link.target)){
+      targetMap.set(link.target,[])
+    }
+    targetMap.get(link.target).push(link);
+  })
   const tooltip: EChartOption.Tooltip = {
     trigger: 'item',
     triggerOn: 'mousemove',
     formatter (params: EChartOption.Tooltip.Format) {
       var { name, value, color } = params
-      name=name.replace('>','-->')
-      const tooltipLabels = []
-      if (color) {
-        tooltipLabels.push(`<span class="widget-tooltip-circle" style="background: ${color}"></span>`)
+      // console.log(name)
+      // console.log(links)
+      //console.log(params)
+      if(name.indexOf('>')>-1){
+        //连接label
+        name=name.replace('>','-->')
+      }else if(sourceMap.has(name)){
+        var list=sourceMap.get(name)
+        name=''
+        list.forEach(link => {
+          name+=link.source+" --> "+link.target+" : "+getFormattedValue(link.value as number, metrics[0].format)+"<br/>"
+        });
+      }else if(targetMap.has(name)){
+        var list=targetMap.get(name)
+        name='';
+        list.forEach(link => {
+          name+=link.target+" --> "+link.source+" : "+getFormattedValue(link.value as number, metrics[0].format)+"<br/>"
+        });
       }
+      const tooltipLabels = []
+      // if (color) {
+      //   tooltipLabels.push(`<span class="widget-tooltip-circle" style="background: ${color}"></span>`)
+      // }
       tooltipLabels.push(name)
       if (value) {
-        tooltipLabels.push(': ')
+        tooltipLabels.push(' : ')
         tooltipLabels.push(getFormattedValue(value as number, metrics[0].format))
       }
       return tooltipLabels.join('')
