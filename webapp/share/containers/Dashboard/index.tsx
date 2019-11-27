@@ -1058,7 +1058,7 @@ export class Share extends React.Component<IDashboardProps, IDashboardStates> {
           className="layout"
           style={{ marginTop: '-16px' }}
           rowHeight={GRID_ROW_HEIGHT}
-          margin={[GRID_ITEM_MARGIN, GRID_ITEM_MARGIN]}
+          margin={[GRID_ITEM_MARGIN/2, GRID_ITEM_MARGIN/2]}
           breakpoints={GRID_BREAKPOINTS}
           cols={GRID_COLS}
           layouts={layouts}
