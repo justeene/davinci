@@ -123,15 +123,21 @@ export default function (chartProps: IChartProps) {
       }else if(sourceMap.has(name)){
         var list=sourceMap.get(name)
         name=''
+        var amount=0;
         list.forEach(link => {
+          amount+=link.value
           name+=link.source+" --> "+link.target+" : "+getFormattedValue(link.value as number, metrics[0].format)+"<br/>"
         });
+        name+="合计 : "+getFormattedValue(amount as number, metrics[0].format)
       }else if(targetMap.has(name)){
         var list=targetMap.get(name)
         name='';
+        var amount=0;
         list.forEach(link => {
+          amount+=link.value
           name+=link.target+" --> "+link.source+" : "+getFormattedValue(link.value as number, metrics[0].format)+"<br/>"
         });
+        name+="合计 : "+getFormattedValue(amount as number, metrics[0].format)
       }
       const tooltipLabels = []
       // if (color) {
