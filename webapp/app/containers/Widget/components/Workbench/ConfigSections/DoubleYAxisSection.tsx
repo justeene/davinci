@@ -80,7 +80,6 @@ export class DoubleYAxisSection extends React.PureComponent<IDoubleYAxisSectionP
     const fontSizes = PIVOT_CHART_FONT_SIZES.map((f) => (
       <Option key={`${f}`} value={`${f}`}>{f}</Option>
     ))
-
     return (
       <div className={styles.paneBlock}>
         <h4>{title}</h4>

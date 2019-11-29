@@ -12,7 +12,7 @@ import { chartFontFamilyOptions, chartFontSizeOptions } from './constants'
 const styles = require('../Workbench.less')
 
 export interface IDataZoomConfig {
-  showLabel: boolean
+  show: boolean
   // labelFontFamily: string
   // labelFontSize: string
   // labelColor: string
@@ -44,7 +44,7 @@ export class DataZoomSection extends React.PureComponent<IDataZoomSectionProps, 
     const { title, config } = this.props
 
     const {
-      showLabel,
+      show,
       // labelFontFamily,
       // labelFontSize,
       // labelColor,

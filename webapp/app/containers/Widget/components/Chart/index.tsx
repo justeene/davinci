@@ -20,7 +20,7 @@ export class CombinedChart extends Component<IChartProps, {}> {
 
   public render () {
     const { selectedChart } = this.props
-
+    
     switch (selectedChart) {
       case ChartTypes.Table:
         return (

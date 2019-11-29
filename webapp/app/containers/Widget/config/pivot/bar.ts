@@ -47,6 +47,9 @@ const bar: IChartInfo = {
     }
   },
   style: {
+    dataZoomConfig: {
+      show: false
+    },
     xAxis: {
       showLine: true,
       lineStyle: 'solid',

@@ -11,14 +11,14 @@ const styles = require('./Chart.less')
 export class Chart extends React.PureComponent<IChartProps> {
   private container: HTMLDivElement = null
   private instance: ECharts
-  constructor (props) {
+  constructor(props) {
     super(props)
   }
-  public componentDidMount () {
+  public componentDidMount() {
     this.renderChart(this.props)
   }
 
-  public componentDidUpdate () {
+  public componentDidUpdate() {
     this.renderChart(this.props)
   }
 
@@ -39,19 +39,49 @@ export class Chart extends React.PureComponent<IChartProps> {
         this.instance.clear()
       }
     }
-
-    this.instance.setOption(
-      chartOptionGenerator(
-        chartlibs.find((cl) => cl.id === selectedChart).name,
-        props,
-        {
-          instance: this.instance,
-          isDrilling,
-          getDataDrillDetail,
-          selectedItems: this.props.selectedItems
-        }
-      )
+    var option = chartOptionGenerator(
+      chartlibs.find((cl) => cl.id === selectedChart).name,
+      props,
+      {
+        instance: this.instance,
+        isDrilling,
+        getDataDrillDetail,
+        selectedItems: this.props.selectedItems
+      }
     )
+    //console.log(JSON.stringify(option))
+    // var lineData = []
+    // option.series.forEach(item => {
+    //   if (item.name == '升') {
+    //     var lastVal = 0
+    //     for(var i=0;i<item.data.length;i++){
+    //       if (lastVal == 0) {
+    //         lineData.push(0)
+    //       } else {
+    //         lineData.push(val * 100 / lastVal)
+    //       }
+    //       lastVal = val
+    //     }
+    //   }
+    // })
+    // var line = {
+    //   yAxisIndex: 1,
+    //   type: 'line',
+    //   data: lineData
+    // }
+    // if (lineData.length > 0) {
+    //   option.series.push(line)
+    //   var temp=option.yAxis
+    //   option.yAxis=[]
+    //   option.yAxis.push(temp)
+    //   option.yAxis.push(
+    //     {
+    //       name: '百分比',
+    //       type: 'value'
+    //     })
+    // }
+
+    this.instance.setOption(option)
 
 
     // if (onDoInteract) {
@@ -76,20 +106,20 @@ export class Chart extends React.PureComponent<IChartProps> {
     const { data, onSelectChartsItems, selectedChart, onDoInteract, onCheckTableInteract } = this.props
     let selectedItems = []
 
-    
+
     if (this.props.selectedItems && this.props.selectedItems.length) {
       selectedItems = [...this.props.selectedItems]
     }
-    
-    
+
+
     const { getDataDrillDetail } = this.props
     let dataIndex = params.dataIndex
     if (selectedChart === 4) {
       dataIndex = params.seriesIndex
     }
     //将之前的查询清空
-    if (!(selectedItems.length == 1&&selectedItems[0]==dataIndex)){
-      selectedItems=[]
+    if (!(selectedItems.length == 1 && selectedItems[0] == dataIndex)) {
+      selectedItems = []
     }
     if (selectedItems.length === 0) {
       selectedItems.push(dataIndex)
@@ -110,16 +140,16 @@ export class Chart extends React.PureComponent<IChartProps> {
       return data[item]
     })
     //修复柱状图堆叠selectedItems计算错误问题
-    if(selectedChart==3){
-      var selectName=params.name
-      for(var i=0;i<data.length;i++){
-        if(JSON.stringify(data[i]).indexOf(selectName)>-1){
-          resultData[0]=data[i];
+    if (selectedChart == 3) {
+      var selectName = params.name
+      for (var i = 0; i < data.length; i++) {
+        if (JSON.stringify(data[i]).indexOf(selectName) > -1) {
+          resultData[0] = data[i];
           break;
         }
       }
     }
-    const brushed = [{0: Object.values(resultData)}]
+    const brushed = [{ 0: Object.values(resultData) }]
     const sourceData = Object.values(resultData)
     const isInteractiveChart = onCheckTableInteract && onCheckTableInteract()
     if (isInteractiveChart && onDoInteract) {
@@ -129,14 +159,14 @@ export class Chart extends React.PureComponent<IChartProps> {
     }
     setTimeout(() => {
       if (getDataDrillDetail) {
-        getDataDrillDetail(JSON.stringify({range: null, brushed, sourceData}))
+        getDataDrillDetail(JSON.stringify({ range: null, brushed, sourceData }))
       }
     }, 500)
     if (onSelectChartsItems) {
       onSelectChartsItems(selectedItems)
     }
   }
-  public render () {
+  public render() {
     return (
       <div
         className={styles.chartContainer}

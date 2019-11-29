@@ -95,7 +95,6 @@ export interface IChartStyles {
   doubleYAxis?: IDoubleYAxisConfig
   dataZoomConfig?:IDataZoomConfig
 }
-
 export interface IChartRule {
   dimension: number | [number, number]
   metric: number | [number, number]
@@ -219,13 +218,13 @@ export class Widget extends React.Component<
       })
     }
   }
-
+  
   public render () {
     const { loading, empty } = this.props
     const { width, height } = this.state
 
     const widgetProps = { width, height, ...this.props }
-
+    console.log(widgetProps)
     delete widgetProps.loading
 
     let widgetContent: JSX.Element

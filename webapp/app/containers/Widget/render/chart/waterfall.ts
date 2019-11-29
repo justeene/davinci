@@ -81,24 +81,29 @@ export default function (chartProps: IChartProps) {
     const seriesBaseData = [...data]
     const ascendOrder = []
     const discendOrder = []
+    const rateOrder = []
     sourceData.forEach((a, index) => {
       a = parseFloat(a)
       if (index > 0) {
-        const result = a - parseFloat(sourceData[index - 1])
+        var lastSource = parseFloat(sourceData[index - 1])
+        const result = a - lastSource
+
         if (result >= 0) {
           ascendOrder.push(result)
           discendOrder.push('-')
-          baseData.push(parseFloat(sourceData[index - 1]))
+          baseData.push(lastSource)
         } else {
           ascendOrder.push('-')
           discendOrder.push(Math.abs(result))
-          baseData.push(parseFloat(sourceData[index - 1]) - Math.abs(result))
+          baseData.push(lastSource - Math.abs(result))
         }
+        rateOrder.push(lastSource == 0 ? 0 : result*100.0 / lastSource)
         return result
       } else {
         ascendOrder.push(a)
         discendOrder.push('-')
         baseData.push(0)
+        rateOrder.push(0)
         return a
       }
     })
@@ -160,9 +165,24 @@ export default function (chartProps: IChartProps) {
       },
       ...labelOption
     }
+
+    const rateLineObj = {
+      name: '增长率',
+      type: 'line',
+      data: rateOrder,
+      yAxisIndex: 1,
+      smooth: true,
+      itemStyle: {
+        // normal: {
+        //   opacity: interactIndex === undefined ? 1 : 0.25
+        // }
+      },
+      ...labelOption
+    }
     series.push(baseDataObj)
     series.push(ascendOrderObj)
     series.push(discendOrderObj)
+    series.push(rateLineObj)
   })
 
   const seriesNames = series.map((s) => s.name)
@@ -183,7 +203,7 @@ export default function (chartProps: IChartProps) {
 
   const tooltip: EChartOption.Tooltip = {
     trigger: 'axis',
-    formatter (param: EChartOption.Tooltip.Format[]) {
+    formatter(param: EChartOption.Tooltip.Format[]) {
       let color
       const text = param.map((pa, index) => {
         const data = !index ? parseFloat(sourceData[pa.dataIndex]) : pa.data
@@ -199,18 +219,26 @@ export default function (chartProps: IChartProps) {
       } else {
         text.unshift(xAxis)
         if (color) {
-          text[0] = `<span class="widget-tooltip-circle" style="background: ${color}"></span>` + text[0]
+          text[0] = `<span class="widget-tooltip-circle" style="background: ${color}"></span>` + text[0]
         }
         return text.join('<br/>')
       }
     }
   }
-
+  var yAxisTemp = []
+  yAxisTemp.push(getMetricAxisOption(yAxis, yAxisSplitLineConfig, metrics.map((m) => decodeMetricName(m.name)).join(` / `)))
+  yAxisTemp.push({
+    name: '增长率(%)',
+    type: 'value'
+  })
+  var gridTemp=getGridPositions({ showLegend: false }, seriesNames, '', false, yAxis, xAxis, xAxisData)
+  gridTemp.top='35px'
+  gridTemp.right='60px'
   return {
     xAxis: getDimetionAxisOption(xAxis, xAxisSplitLineConfig, xAxisData),
-    yAxis: getMetricAxisOption(yAxis, yAxisSplitLineConfig, metrics.map((m) => decodeMetricName(m.name)).join(` / `)),
+    yAxis: yAxisTemp,
     series,
     tooltip,
-    grid: getGridPositions({ showLegend: false }, seriesNames, '', false, yAxis, xAxis, xAxisData)
+    grid: gridTemp
   }
 }

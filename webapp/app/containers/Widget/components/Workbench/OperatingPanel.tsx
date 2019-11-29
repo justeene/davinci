@@ -1767,11 +1767,12 @@ export class OperatingPanel extends React.Component<IOperatingPanelProps, IOpera
               config={pivotConfig as IPivotConfig}
               onChange={this.styleChange('pivot')}
             />}
-            {bar && <DataZoomSection
+            {/* {bar && <DataZoomSection
               title="滑块配置"
               config={dataZoomConfig as IDataZoomConfig}
               onChange={this.styleChange('bar')}
             />
+            } */}
             }
           </div>
         )
