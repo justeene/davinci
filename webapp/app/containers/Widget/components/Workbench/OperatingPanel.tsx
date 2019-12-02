@@ -1773,7 +1773,6 @@ export class OperatingPanel extends React.Component<IOperatingPanelProps, IOpera
               onChange={this.styleChange('bar')}
             />
             } */}
-            }
           </div>
         )
         break

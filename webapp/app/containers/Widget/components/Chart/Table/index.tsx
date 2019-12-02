@@ -351,7 +351,7 @@ export class Table extends React.PureComponent<IChartProps, ITableStates> {
       style.overflowX = 'hidden'
       //console.log('modify hidden')
     }
-
+    console.log(size)
     return (
       <>
         <AntTable

@@ -227,20 +227,22 @@ export default function (chartProps: IChartProps) {
   }
   var yAxisTemp = []
   yAxisTemp.push(getMetricAxisOption(yAxis, yAxisSplitLineConfig, metrics.map((m) => decodeMetricName(m.name)).join(` / `)))
-  yAxisTemp.push({
-    name: '增长率(%)',
-    type: 'value'
-  })
+  //第二次push的是右y
+  yAxisTemp.push(getMetricAxisOption(yAxis, yAxisSplitLineConfig, metrics.map((m) => decodeMetricName(m.name)).join(` / `)))
+  yAxisTemp[1].name= '增长率(%)'
+  yAxisTemp[1].max= undefined
+  yAxisTemp[1].min= undefined
+  yAxisTemp[0].splitNumber= 4
   var gridTemp=getGridPositions({ showLegend: false }, seriesNames, '', false, yAxis, xAxis, xAxisData)
   gridTemp.top='35px'
   gridTemp.right='60px'
-  console.log(JSON.stringify({
-    xAxis: getDimetionAxisOption(xAxis, xAxisSplitLineConfig, xAxisData),
-    yAxis: yAxisTemp,
-    series,
-    tooltip,
-    grid: gridTemp
-  }))
+  // console.log(JSON.stringify({
+  //   xAxis: getDimetionAxisOption(xAxis, xAxisSplitLineConfig, xAxisData),
+  //   yAxis: yAxisTemp,
+  //   series,
+  //   tooltip,
+  //   grid: gridTemp
+  // }))
   return {
     xAxis: getDimetionAxisOption(xAxis, xAxisSplitLineConfig, xAxisData),
     yAxis: yAxisTemp,

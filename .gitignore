@@ -34,6 +34,5 @@ userfiles/
 bin/upgrade.go
 bin/upgrade
 davinci-ui.tar
-davinci-ui/
 server/config/application-xzg.yml
 webapp/node_modules/
