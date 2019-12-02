@@ -224,7 +224,6 @@ export class Widget extends React.Component<
     const { width, height } = this.state
 
     const widgetProps = { width, height, ...this.props }
-    console.log(widgetProps)
     delete widgetProps.loading
 
     let widgetContent: JSX.Element

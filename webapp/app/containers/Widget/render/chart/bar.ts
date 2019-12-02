@@ -101,7 +101,7 @@ export default function (chartProps: IChartProps, drillOptions) {
       })
     }
   }
-
+  labelOption.label.normal.distance=2
   const xAxisColumnName = cols.length ? cols[0].name : ''
 
   let xAxisData = data.map((d) => d[xAxisColumnName] || '')

@@ -68,7 +68,7 @@ export default function (chartProps: IChartProps) {
   const labelOption = {
     label: getLabelOption('waterfall', label, metrics)
   }
-
+  labelOption.label.normal.distance=2
   const xAxisData = data.map((d) => d[cols[0].name] || '')
   let sourceData = []
 
@@ -234,6 +234,13 @@ export default function (chartProps: IChartProps) {
   var gridTemp=getGridPositions({ showLegend: false }, seriesNames, '', false, yAxis, xAxis, xAxisData)
   gridTemp.top='35px'
   gridTemp.right='60px'
+  console.log(JSON.stringify({
+    xAxis: getDimetionAxisOption(xAxis, xAxisSplitLineConfig, xAxisData),
+    yAxis: yAxisTemp,
+    series,
+    tooltip,
+    grid: gridTemp
+  }))
   return {
     xAxis: getDimetionAxisOption(xAxis, xAxisSplitLineConfig, xAxisData),
     yAxis: yAxisTemp,

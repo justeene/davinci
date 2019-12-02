@@ -243,7 +243,7 @@ export class Workbench extends React.Component<IWorkbenchProps, IWorkbenchStates
   }
 
   private deleteComputed = (computeField) => {
-    console.log({computeField})
+    //console.log({computeField})
     const { from } = computeField
     const { params, onEditWidget } = this.props
     const { id, name, description, selectedViewId, controls, cache, autoLoadData, expired, widgetProps, computed, originalWidgetProps, originalComputed } = this.state
