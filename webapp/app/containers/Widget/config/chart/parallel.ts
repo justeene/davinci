@@ -85,6 +85,9 @@ const parallel: IChartInfo = {
     spec: {
       layout: 'horizontal',
       smooth: false
+    },
+    echartExtendConfig: {
+      extendJson: null
     }
   }
 }

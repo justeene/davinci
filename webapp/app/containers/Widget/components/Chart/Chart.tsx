@@ -5,6 +5,7 @@ import * as echarts from 'echarts/lib/echarts'
 import { ECharts } from 'echarts'
 import chartOptionGenerator from '../../render/chart'
 import { getTriggeringRecord } from '../util'
+import json5 from 'json5'
 const styles = require('./Chart.less')
 
 
@@ -23,7 +24,7 @@ export class Chart extends React.PureComponent<IChartProps> {
   }
 
   private renderChart = (props: IChartProps) => {
-    const { selectedChart, renderType, getDataDrillDetail, isDrilling, onSelectChartsItems, onDoInteract, onCheckTableInteract } = props
+    const { selectedChart, chartStyles, renderType, getDataDrillDetail, isDrilling, onSelectChartsItems, onDoInteract, onCheckTableInteract } = props
 
     if (renderType === 'loading') {
       return
@@ -49,40 +50,17 @@ export class Chart extends React.PureComponent<IChartProps> {
         selectedItems: this.props.selectedItems
       }
     )
+    const { echartExtendConfig } = chartStyles
+    if (echartExtendConfig != undefined && echartExtendConfig.extendJson != null) {
+      try {
+        let extend = JSON.parse(echartExtendConfig.extendJson)
+        Object.assign(option, extend);
+      } catch (error) {
+        console.log("扩展配置错误，不是标准json格式")
+      }
+    }
     //console.log(JSON.stringify(option))
-    // var lineData = []
-    // option.series.forEach(item => {
-    //   if (item.name == '升') {
-    //     var lastVal = 0
-    //     for(var i=0;i<item.data.length;i++){
-    //       if (lastVal == 0) {
-    //         lineData.push(0)
-    //       } else {
-    //         lineData.push(val * 100 / lastVal)
-    //       }
-    //       lastVal = val
-    //     }
-    //   }
-    // })
-    // var line = {
-    //   yAxisIndex: 1,
-    //   type: 'line',
-    //   data: lineData
-    // }
-    // if (lineData.length > 0) {
-    //   option.series.push(line)
-    //   var temp=option.yAxis
-    //   option.yAxis=[]
-    //   option.yAxis.push(temp)
-    //   option.yAxis.push(
-    //     {
-    //       name: '百分比',
-    //       type: 'value'
-    //     })
-    // }
-
     this.instance.setOption(option)
-
 
     // if (onDoInteract) {
     //   this.instance.off('click')

@@ -84,6 +84,9 @@ const waterfall: IChartInfo = {
       verticalLineStyle: 'dashed',
       verticalLineSize: '1',
       verticalLineColor: PIVOT_DEFAULT_AXIS_LINE_COLOR
+    },
+    echartExtendConfig: {
+      extendJson: null
     }
   }
 }

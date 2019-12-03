@@ -67,7 +67,10 @@ const radar: IChartInfo = {
       nameGap: 15,
       splitNumber: 5
     },
-    spec: {}
+    spec: {},
+    echartExtendConfig: {
+      extendJson: null
+    }
     // toolbox: {
     //   showToolbox: false
     // }

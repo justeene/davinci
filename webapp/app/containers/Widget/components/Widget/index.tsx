@@ -31,6 +31,7 @@ import { IQueryVariableMap } from 'containers/Dashboard/Grid'
 import { getStyleConfig } from '../util'
 import ChartTypes from '../../config/chart/ChartTypes'
 import { IDataZoomConfig } from '../Workbench/ConfigSections/DataZoomSection'
+import { IEchartExtendConfig } from '../Workbench/ConfigSections/EchartExtendSection'
 const styles = require('../Pivot/Pivot.less')
 
 export type DimetionType = 'row' | 'col'
@@ -94,6 +95,7 @@ export interface IChartStyles {
   radar?: IRadarConfig
   doubleYAxis?: IDoubleYAxisConfig
   dataZoomConfig?:IDataZoomConfig
+  echartExtendConfig?:IEchartExtendConfig
 }
 export interface IChartRule {
   dimension: number | [number, number]

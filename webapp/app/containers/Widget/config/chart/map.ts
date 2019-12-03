@@ -69,6 +69,9 @@ const map: IChartInfo = {
       roam: false,
       symbolType: CHART_LINES_SYMBOL_TYPE[0].value,
       linesSpeed: '10'
+    },
+    echartExtendConfig: {
+      extendJson: null
     }
   }
 }

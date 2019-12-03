@@ -29,6 +29,9 @@ const wordCloud: IChartInfo = {
   style: {
     spec: {
 
+    },
+    echartExtendConfig: {
+      extendJson: null
     }
   }
 }

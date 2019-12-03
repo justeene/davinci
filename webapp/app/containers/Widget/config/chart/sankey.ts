@@ -45,6 +45,9 @@ const sankey: IChartInfo = {
       nodeGap: 8,
       orient: 'horizontal',
       draggable: true
+    },
+    echartExtendConfig: {
+      extendJson: null
     }
   }
 }

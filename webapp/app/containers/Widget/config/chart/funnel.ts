@@ -63,6 +63,9 @@ const funnel: IChartInfo = {
       sortMode: CHART_SORT_MODES[0].value,
       alignmentMode: CHART_ALIGNMENT_MODES[0].value,
       gapNumber: 0
+    },
+    echartExtendConfig: {
+      extendJson: null
     }
   }
 }

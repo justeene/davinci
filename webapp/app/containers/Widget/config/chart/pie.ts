@@ -60,6 +60,9 @@ const pie: IChartInfo = {
     spec: {
       roseType: false,
       circle: false
+    },
+    echartExtendConfig: {
+      extendJson: null
     }
     // toolbox: {
     //   showToolbox: false

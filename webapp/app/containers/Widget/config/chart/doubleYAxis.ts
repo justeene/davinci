@@ -97,6 +97,9 @@ const doubleYAxis: IChartInfo = {
       fontFamily: PIVOT_CHART_FONT_FAMILIES[0].value,
       fontSize: '12',
       color: PIVOT_DEFAULT_FONT_COLOR
+    },
+    echartExtendConfig: {
+      extendJson: null
     }
   }
 }
