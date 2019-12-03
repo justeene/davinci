@@ -113,7 +113,6 @@ export class TableSection extends React.PureComponent<ITableSectionProps, ITable
 
   private getValidColumnConfig = (props: ITableSectionProps, validColumns: IDataParamSource[]) => {
     const { config } = props
-
     const validColumnConfig = produce(config.columnsConfig, (draft) => {
       const config: ITableColumnConfig[] = []
 

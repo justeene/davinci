@@ -349,9 +349,15 @@ export class Table extends React.PureComponent<IChartProps, ITableStates> {
     if (widgetName != undefined && widgetName.indexOf("__") == 0) {
       style.overflowY = 'hidden'
       style.overflowX = 'hidden'
+      
       //console.log('modify hidden')
     }
-    console.log(size)
+    if (widgetName != undefined && widgetName.indexOf("___") == 0) {
+      style.cursor = 'pointer'
+      style.textDecoration = 'underline'
+      style.color='darkblue'
+    }
+    //console.log(tableCls)
     return (
       <>
         <AntTable
