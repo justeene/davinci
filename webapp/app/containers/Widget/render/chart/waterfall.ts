@@ -51,7 +51,8 @@ export default function (chartProps: IChartProps) {
     label,
     xAxis,
     yAxis,
-    splitLine
+    splitLine,
+    waterFallConfig
   } = chartStyles
 
   const {
@@ -68,7 +69,7 @@ export default function (chartProps: IChartProps) {
   const labelOption = {
     label: getLabelOption('waterfall', label, metrics)
   }
-  labelOption.label.normal.distance=2
+  labelOption.label.normal.distance = 2
   const xAxisData = data.map((d) => d[cols[0].name] || '')
   let sourceData = []
 
@@ -83,12 +84,12 @@ export default function (chartProps: IChartProps) {
     const discendOrder = []
     const rateOrder = []
     const fluctucateRateOrder = []
-    let lastResult=0
+    let lastResult = 0
     sourceData.forEach((a, index) => {
       a = parseFloat(a)
       if (index > 0) {
         var lastSource = parseFloat(sourceData[index - 1])
-        
+
         const result = a - lastSource
         if (result >= 0) {
           ascendOrder.push(result)
@@ -99,9 +100,9 @@ export default function (chartProps: IChartProps) {
           discendOrder.push(Math.abs(result))
           baseData.push(lastSource - Math.abs(result))
         }
-        rateOrder.push(lastSource == 0 ? 0 : result*100.0 / lastSource)
-        fluctucateRateOrder.push(lastResult==0?0:((result-lastResult)*100.0/lastResult))
-        lastResult=result
+        rateOrder.push(lastSource == 0 ? 0 : result * 100.0 / lastSource)
+        fluctucateRateOrder.push(lastResult == 0 ? 0 : ((result - lastResult) * 100.0 / lastResult))
+        lastResult = result
         return result
       } else {
         ascendOrder.push(a)
@@ -109,7 +110,7 @@ export default function (chartProps: IChartProps) {
         baseData.push(0)
         rateOrder.push(0)
         fluctucateRateOrder.push(0)
-        lastResult=a
+        lastResult = a
         return a
       }
     })
@@ -171,38 +172,49 @@ export default function (chartProps: IChartProps) {
       },
       ...labelOption
     }
-
-    const rateLineObj = {
-      name: '增长率',
-      type: 'line',
-      data: rateOrder,
-      yAxisIndex: 1,
-      smooth: true,
-      itemStyle: {
-        // normal: {
-        //   opacity: interactIndex === undefined ? 1 : 0.25
-        // }
-      },
-      ...labelOption
-    }
-    const fluctucateLineObj = {
-      name: '增幅率',
-      type: 'line',
-      data: fluctucateRateOrder,
-      yAxisIndex: 2,
-      smooth: true,
-      itemStyle: {
-        // normal: {
-        //   opacity: interactIndex === undefined ? 1 : 0.25
-        // }
-      },
-      ...labelOption
-    }
     series.push(baseDataObj)
     series.push(ascendOrderObj)
     series.push(discendOrderObj)
-    series.push(rateLineObj)
-    series.push(fluctucateLineObj)
+
+
+    let count=0
+    if (waterFallConfig!=undefined&&waterFallConfig.showIncrease) {
+      count++
+      const rateLineObj = {
+        name: '增长率',
+        type: 'line',
+        data: rateOrder,
+        yAxisIndex: count,
+        smooth: true,
+        itemStyle: {
+          // normal: {
+          //   opacity: interactIndex === undefined ? 1 : 0.25
+          // }
+        },
+        ...labelOption
+      }
+      series.push(rateLineObj)
+    }
+    if (waterFallConfig!=undefined&&waterFallConfig.showFluctuate) {
+      count++
+      const fluctucateLineObj = {
+        name: '波动率',
+        type: 'line',
+        data: fluctucateRateOrder,
+        yAxisIndex: count,
+        smooth: true,
+        itemStyle: {
+          // normal: {
+          //   opacity: interactIndex === undefined ? 1 : 0.25
+          // }
+        },
+        ...labelOption
+      }
+      series.push(fluctucateLineObj)
+    }
+    
+
+
   })
 
   const seriesNames = series.map((s) => s.name)
@@ -248,32 +260,38 @@ export default function (chartProps: IChartProps) {
   var yAxisTemp = []
   //第一次push是左y
   yAxisTemp.push(getMetricAxisOption(yAxis, yAxisSplitLineConfig, metrics.map((m) => decodeMetricName(m.name)).join(` / `)))
-  yAxisTemp[0].splitNumber= 4
+  yAxisTemp[0].splitNumber = 4
+  let count=0
   //第二次push的是右y
-  yAxisTemp.push(getMetricAxisOption(yAxis, yAxisSplitLineConfig, metrics.map((m) => decodeMetricName(m.name)).join(` / `)))
-  yAxisTemp[1].name= '增长率'
-  yAxisTemp[1].max= undefined
-  yAxisTemp[1].min= undefined
-  yAxisTemp[1].axisLabel.formatter= '{value} %'
+  if (waterFallConfig!=undefined&&waterFallConfig.showIncrease) {
+    count++
+    const temp=getMetricAxisOption(yAxis, yAxisSplitLineConfig, metrics.map((m) => decodeMetricName(m.name)).join(` / `))
+    temp.name = '增长率'
+    temp.max = undefined
+    temp.min = undefined
+    temp.axisLabel.formatter = '{value} %'
+    yAxisTemp.push(temp)
+  }
   //第三次push的是右y2
-  yAxisTemp.push(getMetricAxisOption(yAxis, yAxisSplitLineConfig, metrics.map((m) => decodeMetricName(m.name)).join(` / `)))
-  yAxisTemp[2].name= '波动率'
-  yAxisTemp[2].max= undefined
-  yAxisTemp[2].min= undefined
-  yAxisTemp[2].offset= 60
-  yAxisTemp[2].axisLabel.formatter= '{value} %'
-  yAxisTemp[2].splitNumber= 4
+  if (waterFallConfig!=undefined&&waterFallConfig.showFluctuate) {
+    count++
+    const temp=getMetricAxisOption(yAxis, yAxisSplitLineConfig, metrics.map((m) => decodeMetricName(m.name)).join(` / `))
+    temp.name = '波动率'
+    temp.max = undefined
+    temp.min = undefined
+    temp.axisLabel.formatter = '{value} %'
+    temp.splitNumber = 4
+    if(count>1){
+      temp.offset = 60
+    }
+    yAxisTemp.push(temp)
+    
+  }
+  var gridTemp = getGridPositions({ showLegend: false }, seriesNames, '', false, yAxis, xAxis, xAxisData)
   
-  var gridTemp=getGridPositions({ showLegend: false }, seriesNames, '', false, yAxis, xAxis, xAxisData)
-  gridTemp.top='35px'
-  gridTemp.right='120px'
-  // console.log(JSON.stringify({
-  //   xAxis: getDimetionAxisOption(xAxis, xAxisSplitLineConfig, xAxisData),
-  //   yAxis: yAxisTemp,
-  //   series,
-  //   tooltip,
-  //   grid: gridTemp
-  // }))
+  gridTemp.right = (count*60)+'px'
+  gridTemp.top = '35px'
+  
   return {
     xAxis: getDimetionAxisOption(xAxis, xAxisSplitLineConfig, xAxisData),
     yAxis: yAxisTemp,

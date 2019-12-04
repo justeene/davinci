@@ -42,7 +42,7 @@ export class EchartExtendSection extends React.PureComponent<IEchartExtendSectio
                 rows={10}
                 placeholder="请输入要覆盖的echart option配置（json格式）"
                 defaultValue={extendJson}
-                onChange={this.propChange('extendJson')}
+                onBlur={this.propChange('extendJson')}
               />
             </Col>
           </Row>

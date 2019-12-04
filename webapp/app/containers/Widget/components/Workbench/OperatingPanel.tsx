@@ -32,6 +32,7 @@ import ScorecardSection, { IScorecardConfig } from './ConfigSections/ScorecardSe
 import IframeSection, { IframeConfig } from './ConfigSections/IframeSection'
 import DataZoomSection, {IDataZoomConfig} from './ConfigSections/DataZoomSection'
 import EchartExtendSection, {IEchartExtendConfig} from './ConfigSections/EchartExtendSection'
+import WaterFallSection, {IWaterFallConfig} from './ConfigSections/WaterFallSection'
 import TableSection from './ConfigSections/TableSection'
 import { ITableConfig } from '../Config/Table'
 import BarSection from './ConfigSections/BarSection'
@@ -1248,8 +1249,6 @@ export class OperatingPanel extends React.Component<IOperatingPanelProps, IOpera
   }
 
   private styleChange = (name) => (prop, value, propPath?: string[]) => {
-    console.log(prop)
-    console.log(value)
     const { dataParams, styleParams } = this.state
     if (!propPath || !propPath.length) {
       styleParams[name][prop] = value
@@ -1546,7 +1545,7 @@ export class OperatingPanel extends React.Component<IOperatingPanelProps, IOpera
     const [dimetionsCount, metricsCount] = this.getDimetionsAndMetricsCount()
     const {
       spec, xAxis, yAxis, axis, splitLine, pivot: pivotConfig, label, legend,
-      visualMap, toolbox, areaSelect, scorecard, iframe, table, bar, radar, doubleYAxis,dataZoomConfig,echartExtendConfig } = styleParams
+      visualMap, toolbox, areaSelect, scorecard, iframe, table, bar, radar, doubleYAxis,dataZoomConfig,echartExtendConfig,waterFallConfig } = styleParams
     
     let categoryDragItems = this.state.categoryDragItems
     if (mode === 'pivot'
@@ -1775,6 +1774,11 @@ export class OperatingPanel extends React.Component<IOperatingPanelProps, IOpera
               onChange={this.styleChange('bar')}
             />
             } */}
+            {waterFallConfig && <WaterFallSection
+              title="瀑布图配置"
+              config={waterFallConfig as IWaterFallConfig}
+              onChange={this.styleChange('waterFallConfig')}
+            />}
             {echartExtendConfig && <EchartExtendSection
               title="echart扩展配置"
               config={echartExtendConfig as IEchartExtendConfig}

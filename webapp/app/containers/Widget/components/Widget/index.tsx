@@ -32,6 +32,7 @@ import { getStyleConfig } from '../util'
 import ChartTypes from '../../config/chart/ChartTypes'
 import { IDataZoomConfig } from '../Workbench/ConfigSections/DataZoomSection'
 import { IEchartExtendConfig } from '../Workbench/ConfigSections/EchartExtendSection'
+import { IWaterFallConfig } from '../Workbench/ConfigSections/WaterFallSection'
 const styles = require('../Pivot/Pivot.less')
 
 export type DimetionType = 'row' | 'col'
@@ -96,6 +97,7 @@ export interface IChartStyles {
   doubleYAxis?: IDoubleYAxisConfig
   dataZoomConfig?:IDataZoomConfig
   echartExtendConfig?:IEchartExtendConfig
+  waterFallConfig?:IWaterFallConfig
 }
 export interface IChartRule {
   dimension: number | [number, number]

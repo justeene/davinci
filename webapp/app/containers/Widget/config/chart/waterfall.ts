@@ -87,6 +87,10 @@ const waterfall: IChartInfo = {
     },
     echartExtendConfig: {
       extendJson: null
+    },
+    waterFallConfig:{
+      showIncrease:false,
+      showFluctuate:false
     }
   }
 }
