@@ -53,10 +53,11 @@ export class Chart extends React.PureComponent<IChartProps> {
     const { echartExtendConfig } = chartStyles
     if (echartExtendConfig != undefined && echartExtendConfig.extendJson != null) {
       try {
-        let extend = JSON.parse(echartExtendConfig.extendJson)
-        Object.assign(option, extend);
+        eval(echartExtendConfig.extendJson)
+        // let extend = JSON.parse(echartExtendConfig.extendJson)
+        // Object.assign(option, extend);
       } catch (error) {
-        console.log("扩展配置错误，不是标准json格式")
+        console.log("扩展配置错误，请检查语法")
       }
     }
     //console.log(JSON.stringify(option))
