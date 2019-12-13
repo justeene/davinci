@@ -160,7 +160,6 @@ export function* getViewData (action: ViewActionType) {
     })
     yield put(viewDataLoaded())
     const { resultList } = asyncData.payload
-    debugger
     asyncData.payload.resultList = (resultList && resultList.slice(0, 10000)) || []
     resolve(asyncData.payload)
   } catch (err) {
@@ -266,7 +265,7 @@ export function* getViewDataFromVizItem (action: ViewActionType) {
       cancelToken: cancelTokenSource.token
     })
     const { resultList } = asyncData.payload
-    asyncData.payload.resultList = (resultList && resultList.slice(0, 500)) || []
+    asyncData.payload.resultList = (resultList && resultList.slice(0, 10000)) || []
     yield put(viewDataFromVizItemLoaded(renderType, itemId, requestParams, asyncData.payload, vizType, action.statistic))
   } catch (err) {
     yield put(loadViewDataFromVizItemFail(itemId, vizType, getErrorMessage(err)))

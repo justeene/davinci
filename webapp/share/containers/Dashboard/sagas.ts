@@ -113,7 +113,7 @@ export function* getResultset (action) {
       }
     })
     const { resultList } = resultset.payload
-    resultset.payload.resultList = (resultList && resultList.slice(0, 500)) || []
+    resultset.payload.resultList = (resultList && resultList.slice(0, 10000)) || []
     yield put(resultsetGetted(renderType, itemId, requestParams, resultset.payload))
   } catch (err) {
     yield put(getResultsetFail(itemId, getErrorMessage(err)))
