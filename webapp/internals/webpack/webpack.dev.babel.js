@@ -10,7 +10,9 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 
 module.exports = require('./webpack.base.babel')({
     mode: 'development',
-
+    devServer: {
+        port:8081
+    },
     // Add hot reloading in development
     entry: {
         app: [

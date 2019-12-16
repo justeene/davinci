@@ -340,7 +340,7 @@ export class Table extends React.PureComponent<IChartProps, ITableStates> {
         {...paginationConfig}
       />
     ) : null
-    const tableCls = classnames({
+    let tableCls = classnames({
       [Styles.table]: true,
       [Styles.noBorder]: bordered !== undefined && !bordered
     })
@@ -348,8 +348,11 @@ export class Table extends React.PureComponent<IChartProps, ITableStates> {
     //console.log(widgetName)
     if (widgetName != undefined && widgetName.indexOf("__") == 0) {
       style.overflowY = 'hidden'
-      style.overflowX = 'hidden'
-      
+      tableCls=tableCls+" "+classnames({
+        [Styles.tableNoScroll]:true
+      })
+      // style.overflowX = 'hidden'
+      // console.log(scroll)
       //console.log('modify hidden')
     }
     if (widgetName != undefined && widgetName.indexOf("___") == 0) {

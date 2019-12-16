@@ -2,17 +2,18 @@
 
   &.noBorder {
     :global {
-      .ant-table-thead > tr > th {
+      .ant-table-thead>tr>th {
         border: none;
       }
 
-      .ant-table-tbody > tr > td {
+      .ant-table-tbody>tr>td {
         border: none;
       }
     }
   }
 
   :global {
+
     .ant-table,
     .ant-pagination,
     .ant-select {
@@ -27,7 +28,7 @@
       overflow-y: scroll !important;
     }
 
-    .ant-table-thead > tr {
+    .ant-table-thead>tr {
       background: transparent !important;
     }
 
@@ -38,13 +39,12 @@
     .ant-table-body {
       background: transparent !important;
       overflow-x: auto !important;
-    }
-    .ant-table-body > table{
-      //width: 98% !important;
-      //min-width:  auto !important;
+      overflow: auto !important;
     }
 
-    .ant-table-tbody > tr > td {
+
+
+    .ant-table-tbody>tr>td {
       word-break: break-all;
     }
 
@@ -66,9 +66,10 @@
 
   .selectedRow {
     //background-color: #d2eafb;
-   // background-color: transparent;
+    // background-color: transparent;
 
   }
+
   .unSelectedRow {
     background-color: transparent;
   }
@@ -79,6 +80,15 @@
 
     &:hover {
       cursor: pointer;
+    }
+  }
+}
+
+.tableNoScroll {
+  :global {
+    .ant-table-body>table {
+      width: 96% !important;
+      min-width: 96% !important;
     }
   }
 }
