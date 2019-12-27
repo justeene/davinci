@@ -288,7 +288,7 @@ export class TableSection extends React.PureComponent<ITableSectionProps, ITable
   public render () {
     const { config } = this.props
     const {
-      leftFixedColumns, rightFixedColumns, headerFixed, bordered, size,
+      leftFixedColumns, rightFixedColumns, headerFixed, bordered,shrinkBody, size,
       autoMergeCell, withPaging, pageSize, withNoAggregators } = config
     const {
       validColumns, validHeaderConfig, validColumnConfig,
@@ -320,6 +320,12 @@ export class TableSection extends React.PureComponent<ITableSectionProps, ITable
               </Col>
               <Col span={12}>
                 <Checkbox checked={bordered} onChange={this.checkboxChange('bordered')}>边框</Checkbox>
+              </Col>
+              
+            </Row>
+            <Row gutter={8} type="flex" align="middle" className={styles.blockRow}>
+            <Col span={24}>
+                <Checkbox checked={shrinkBody} onChange={this.checkboxChange('shrinkBody')}>禁用横向滚动</Checkbox>
               </Col>
             </Row>
           </div>

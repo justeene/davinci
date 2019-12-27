@@ -348,12 +348,15 @@ export class Table extends React.PureComponent<IChartProps, ITableStates> {
     //console.log(widgetName)
     if (widgetName != undefined && widgetName.indexOf("__") == 0) {
       style.overflowY = 'hidden'
-      tableCls=tableCls+" "+classnames({
-        [Styles.tableNoScroll]:true
-      })
+      
       // style.overflowX = 'hidden'
       // console.log(scroll)
       //console.log('modify hidden')
+    }
+    if(chartStyles.table.shrinkBody){
+      tableCls=tableCls+" "+classnames({
+        [Styles.tableNoScroll]:true
+      })
     }
     if (widgetName != undefined && widgetName.indexOf("___") == 0) {
       style.cursor = 'pointer'

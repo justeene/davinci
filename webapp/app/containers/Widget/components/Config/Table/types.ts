@@ -18,6 +18,7 @@ export interface ITableConfig {
   rightFixedColumns: string[]
   headerFixed: boolean
   bordered: boolean
+  shrinkBody: boolean
   size: 'default' | 'middle' | 'small'
   autoMergeCell: boolean
   withPaging: boolean
