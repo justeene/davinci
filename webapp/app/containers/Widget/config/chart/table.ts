@@ -49,6 +49,7 @@ const table: IChartInfo = {
       headerFixed: true,
       autoMergeCell: true,
       bordered: true,
+      shrinkBody: false,
       size: 'default',
       withPaging: true,
       pageSize: '20',
