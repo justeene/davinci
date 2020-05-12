@@ -33,7 +33,7 @@ export const env = JSON.stringify(process.env).indexOf('development')>-1?envName
 
 export default {
   dev: {
-    host: 'http://localhost:8080/api/v3',
+    host: 'http://192.168.223.66:8080/api/v3',
     shareHost: '/share.html'
   },
   production: {

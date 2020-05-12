@@ -20,4 +20,6 @@
 
 .react-grid-item {
   cursor: default;
+  
 }
+.react-grid-item svg {display: none;}

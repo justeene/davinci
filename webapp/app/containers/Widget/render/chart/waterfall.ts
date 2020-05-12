@@ -101,7 +101,7 @@ export default function (chartProps: IChartProps) {
           baseData.push(lastSource - Math.abs(result))
         }
         rateOrder.push(lastSource == 0 ? 0 : result * 100.0 / lastSource)
-        let fluctucateRate=lastResult == 0 ? ((result - lastResult) * 100.0 / 1) : ((result - lastResult) * 100.0 / lastResult)
+        let fluctucateRate=lastResult == 0 ? ((result - lastResult) * 100.0 / 1) : ((result - lastResult) * 100.0 / Math.abs(lastResult))
         if(fluctucateRate>10000){
           fluctucateRate=10000
         }

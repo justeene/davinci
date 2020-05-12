@@ -50,7 +50,7 @@ Davinci is oriented towards product managers, business people, data engineers, d
   * Share dashboard in a common/authorized way
 * Security Permission Support
   * Row permission and column permission
-  * Integration of LDAP sign-in
+  * Integration of LDAP com.guohuai.sign-in
   
 ## Latest Release
 Please download the latest [RELEASE](https://github.com/edp963/davinci/releases/download/v0.3.0-beta.5/davinci-assembly_3.0.1-0.3.1-SNAPSHOT-dist-beta.5.zip)
