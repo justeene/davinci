@@ -191,10 +191,12 @@ public class SqlParseUtils {
         if (!CollectionUtils.isEmpty(authParamMap) && !CollectionUtils.isEmpty(expSet)) {
             authParamMap.forEach((k, v) -> st.add(k, true));
         }
-        for(String key:queryParamMap.keySet()){
-            if(key.startsWith("__")){
-                log.info("变量{}需要去掉单引号",key);
-                queryParamMap.put(key,queryParamMap.get(key).toString().replaceAll("'",""));
+        if(queryParamMap!=null) {
+            for (String key : queryParamMap.keySet()) {
+                if (key.startsWith("__")) {
+                    log.info("变量{}需要去掉单引号", key);
+                    queryParamMap.put(key, queryParamMap.get(key).toString().replaceAll("'", ""));
+                }
             }
         }
         //替换query@var
